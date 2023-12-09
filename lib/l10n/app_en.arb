@@ -1,0 +1,10 @@
+{
+  "application_title": "Last lesson voting session",
+  "vote_screen_title": "Leave your vote",
+  "vote_select_presenter": "Select presenter from the list",
+  "vote_for_idea": "Vote for idea",
+  "vote_for_presentation": "Vote for presentation",
+  "vote_for_implementation": "Vote for implementation",
+  "vote_send": "Send your vote",
+  "chart_screen_title": "Voting results"
+}

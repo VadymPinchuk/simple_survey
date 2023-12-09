@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChartScreen extends StatefulWidget {
   const ChartScreen({super.key});
@@ -18,9 +19,10 @@ class _ChartScreenState extends State<ChartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Voting results'),
+        title: Text(strings.chart_screen_title),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

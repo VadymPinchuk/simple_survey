@@ -1,0 +1,10 @@
+{
+  "application_title": "Сесія голосування на останньому уроці",
+  "vote_screen_title": "Залиште свій голос",
+  "vote_select_presenter": "Виберіть презентера із списку",
+  "vote_for_idea": "Оцініть ідею",
+  "vote_for_presentation": "Оцініть презентацію",
+  "vote_for_implementation": "Оцініть реалізацію",
+  "vote_send": "Відправити оцінку",
+  "chart_screen_title": "Результати голосування"
+}

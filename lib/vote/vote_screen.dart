@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:simple_survey/router.dart';
 
@@ -19,9 +20,10 @@ class _VoteScreenState extends State<VoteScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final strings = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Leave your vote'),
+        title: Text(strings.vote_screen_title),
         actions: [
           if (!kIsWeb)
             IconButton(
@@ -39,7 +41,7 @@ class _VoteScreenState extends State<VoteScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Виберіть презентера із списку',
+                strings.vote_select_presenter,
                 style: theme.textTheme.titleLarge,
               ),
               Padding(
@@ -66,7 +68,7 @@ class _VoteScreenState extends State<VoteScreen> {
                 ),
               ),
               Text(
-                'Оцініть ідею',
+                strings.vote_for_idea,
                 style: theme.textTheme.titleMedium,
               ),
               Padding(
@@ -85,7 +87,7 @@ class _VoteScreenState extends State<VoteScreen> {
                 ),
               ),
               Text(
-                'Оцініть презентацію',
+                strings.vote_for_presentation,
                 style: theme.textTheme.titleMedium,
               ),
               Padding(
@@ -104,7 +106,7 @@ class _VoteScreenState extends State<VoteScreen> {
                 ),
               ),
               Text(
-                'Оцініть реалізацію',
+                strings.vote_for_implementation,
                 style: theme.textTheme.titleMedium,
               ),
               Padding(
@@ -135,7 +137,7 @@ class _VoteScreenState extends State<VoteScreen> {
                     ),
                   ),
                   onPressed: () {},
-                  child: Text('Відправити оцінку'),
+                  child: Text(strings.vote_send),
                 ),
               ),
             ],

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:simple_survey/router.dart';
 
 void main() {
@@ -13,6 +14,8 @@ class VoteApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: kIsWeb ? routerWeb : router,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData.light().copyWith(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
         brightness: Brightness.light,
@@ -22,7 +25,8 @@ class VoteApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       debugShowCheckedModeBanner: false,
-      title: 'Final lesson voting session',
+      onGenerateTitle: (context) =>
+          AppLocalizations.of(context)!.application_title,
     );
   }
 }
