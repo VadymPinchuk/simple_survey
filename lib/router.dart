@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:simple_survey/vote/vote_screen.dart';
-import 'package:simple_survey/vote_web_screen.dart';
+import 'package:simple_survey/web/vote_web_screen.dart';
 
 import 'chart/chart_screen.dart';
 
