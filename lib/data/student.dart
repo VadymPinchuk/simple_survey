@@ -10,6 +10,17 @@ class Student {
     required this.score,
   });
 
+  String getInitials() {
+    String initials = '';
+
+    for (String name in name.split(' ')) {
+      if (name.isNotEmpty) {
+        initials += name[0].toUpperCase();
+      }
+    }
+    return initials;
+  }
+
   Student copyWith(double current) {
     return Student._(
       id: id,

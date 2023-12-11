@@ -39,21 +39,8 @@ class ChartProvider extends ChangeNotifier {
       // TEST ONLY (With my scores)
       if (list.length == 1) return sum;
       // Removing one participant with empty scores (me)
-      return sum / list.length - 1;
+      return sum / (list.length - 1);
     });
-  }
-
-  String createInitials(String fullName) {
-    List<String> names = fullName.split(' '); // Split the string by spaces
-    String initials = '';
-
-    for (String name in names) {
-      if (name.isNotEmpty) {
-        initials += name[0]
-            .toUpperCase(); // Take the first character of each part and capitalize it
-      }
-    }
-    return initials;
   }
 
   @override

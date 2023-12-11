@@ -21,7 +21,6 @@ class _ChartScreenState extends State<ChartScreen> {
   @override
   Widget build(BuildContext context) {
     final strings = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(strings.chart_screen_title),
@@ -33,9 +32,9 @@ class _ChartScreenState extends State<ChartScreen> {
             Column(
               children: [
                 const Spacer(),
-                _levelsBack(40 * 2, Colors.greenAccent.withOpacity(0.3)),
-                _levelsBack(40 * 2, Colors.yellowAccent.withOpacity(0.2)),
-                _levelsBack(120 * 2, Colors.orange.withOpacity(0.1)),
+                _levelsBack(40 * 2, Colors.greenAccent.withOpacity(0.2)),
+                _levelsBack(40 * 2, Colors.yellowAccent.withOpacity(0.1)),
+                _levelsBack(120 * 2, Colors.orange.withOpacity(0.05)),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5.0),
                   child: _levelsBack(40, Colors.white.withOpacity(0.1)),
@@ -74,29 +73,31 @@ class _ChartScreenState extends State<ChartScreen> {
       child: StreamBuilder<double>(
         stream: context.read<ChartProvider>().getStudentScoreStream(student.id),
         builder: (context, snapshot) {
-          double newScore = student.score + (snapshot.data ?? 0);
+          double newScore = snapshot.data ?? 0;
+          double total = student.score + newScore;
           return Column(
             children: [
               const Spacer(),
+              // total text
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(4.0),
-                  ),
+                  borderRadius: BorderRadius.circular(24.0),
                   child: ColoredBox(
-                    color: scheme.primaryContainer,
+                    color: scheme.tertiaryContainer,
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Text(
-                        '${newScore.round()}',
-                        style: theme.textTheme.titleMedium!
-                            .copyWith(color: scheme.onPrimaryContainer),
+                        '${total.round()}',
+                        style: theme.textTheme.titleMedium!.copyWith(
+                          color: scheme.onTertiaryContainer,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
+              // current score
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: AnimatedContainer(
@@ -110,8 +111,47 @@ class _ChartScreenState extends State<ChartScreen> {
                   height: newScore * 2,
                   // Animated height
                   decoration: BoxDecoration(
+                    color: scheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Align(
+                    alignment: AlignmentDirectional.topCenter,
+                    child: Center(
+                      child: Text(
+                        newScore.toString(),
+                        style: theme.textTheme.titleSmall!.copyWith(
+                          color: scheme.onPrimaryContainer,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              // small gap between points
+              const SizedBox(height: 2),
+              // points till now
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: ColoredBox(
                     color: scheme.primary,
-                    borderRadius: BorderRadius.circular(10),
+                    child: SizedBox(
+                      height: student.score * 2,
+                      width: 50.0,
+                      child: Align(
+                        alignment: AlignmentDirectional.topCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            student.score.toString(),
+                            style: theme.textTheme.titleSmall!.copyWith(
+                              color: scheme.onPrimary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -119,9 +159,7 @@ class _ChartScreenState extends State<ChartScreen> {
                 height: 50,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Text(
-                    context.read<ChartProvider>().createInitials(student.name),
-                  ),
+                  child: Text(student.getInitials()),
                 ),
               ),
             ],

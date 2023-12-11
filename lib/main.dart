@@ -60,7 +60,7 @@ class VoteApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ColorScheme lightScheme =
-        ColorScheme.fromSeed(seedColor: Colors.cyan);
+        ColorScheme.fromSeed(seedColor: Colors.red);
     ColorScheme darkScheme = ColorScheme.fromSeed(seedColor: Colors.purple);
     return MultiProvider(
       providers: [
