@@ -108,7 +108,7 @@ class _ChartScreenState extends State<ChartScreen> {
                   // Animation curve
                   width: 50.0,
                   // Fixed width
-                  height: newScore * 2,
+                  height: newScore.round() * 2,
                   // Animated height
                   decoration: BoxDecoration(
                     color: scheme.primaryContainer,
@@ -118,7 +118,7 @@ class _ChartScreenState extends State<ChartScreen> {
                     alignment: AlignmentDirectional.topCenter,
                     child: Center(
                       child: Text(
-                        newScore.toString(),
+                        newScore.round().toString(),
                         style: theme.textTheme.titleSmall!.copyWith(
                           color: scheme.onPrimaryContainer,
                         ),

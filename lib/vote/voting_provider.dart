@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:simple_survey/util/device_data.dart';
 import 'package:simple_survey/data/repository.dart';
 import 'package:simple_survey/data/student.dart';
 import 'package:simple_survey/data/vote.dart';
+import 'package:simple_survey/util/device_data.dart';
 
 typedef Score = ({String id, double score, double current});
 
@@ -97,7 +97,7 @@ class VotingProvider extends ChangeNotifier {
         studentId: _current!.id,
         voteIdea: _voteIdea,
         votePresentation: _votePresentation,
-        voteImplementation: _voteIdea,
+        voteImplementation: _voteImplementation,
         voteAverage: _voteAverage.roundToDouble(),
       ),
     );
