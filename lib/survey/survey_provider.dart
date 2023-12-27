@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:simple_survey/data/repository.dart';
-import 'package:simple_survey/data/student.dart';
-import 'package:simple_survey/data/vote.dart';
+import 'package:simple_survey/models/student.dart';
+import 'package:simple_survey/models/vote.dart';
 import 'package:simple_survey/util/device_data.dart';
 
 typedef Score = ({String id, double score, double current});
 
-class VotingProvider extends ChangeNotifier {
-  VotingProvider(this._repository);
+class SurveyProvider extends ChangeNotifier {
+  SurveyProvider(this._repository);
 
   final Repository _repository;
 
@@ -40,7 +40,7 @@ class VotingProvider extends ChangeNotifier {
   bool get isReadyToVote => _isReadyToVote;
 
   Future<void> requestStudents() async {
-    _students = await _repository.getStudentsList();
+    // _students = await _repository.getSurveysList();
 
     // FOR TEST PURPOSES ONLY:
     // _sentEmptyVote();

@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_survey/data/student.dart';
+import 'package:simple_survey/models/student.dart';
 import 'package:simple_survey/router.dart';
-import 'package:simple_survey/vote/voting_provider.dart';
+import 'package:simple_survey/survey/survey_provider.dart';
 
-class VoteScreen extends StatefulWidget {
-  const VoteScreen({super.key});
+class SurveyScreen extends StatefulWidget {
+  const SurveyScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _VoteScreenState();
+  State<StatefulWidget> createState() => _SurveyScreenState();
 }
 
-class _VoteScreenState extends State<VoteScreen> {
+class _SurveyScreenState extends State<SurveyScreen> {
   @override
   void didChangeDependencies() {
-    context.read<VotingProvider>().requestStudents();
+    context.read<SurveyProvider>().requestStudents();
     super.didChangeDependencies();
   }
 
@@ -69,7 +69,7 @@ class _VoteScreenState extends State<VoteScreen> {
         actions: [
           if (!kIsWeb)
             IconButton(
-              onPressed: () => context.goNamed(Routes.chart.name),
+              onPressed: () => context.goNamed(Routes.stats.name),
               icon: const Icon(Icons.bar_chart),
             )
         ],
@@ -91,14 +91,14 @@ class _VoteScreenState extends State<VoteScreen> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Selector<VotingProvider, List<Student>>(
+                      child: Selector<SurveyProvider, List<Student>>(
                         selector: (_, provider) => provider.students,
                         builder: (context, list, __) {
                           if (list.isNotEmpty) {
                             return DropdownMenu<Student>(
                               onSelected: (Student? value) {
                                 context
-                                    .read<VotingProvider>()
+                                    .read<SurveyProvider>()
                                     .selectStudent(value!);
                               },
                               dropdownMenuEntries: list
@@ -118,7 +118,7 @@ class _VoteScreenState extends State<VoteScreen> {
                         },
                       ),
                     ),
-                    Selector<VotingProvider, double>(
+                    Selector<SurveyProvider, double>(
                       selector: (_, provider) => provider.voteAverage,
                       builder: (context, score, __) {
                         return Center(
@@ -135,19 +135,19 @@ class _VoteScreenState extends State<VoteScreen> {
                   ],
                 ),
               ),
-              Selector<VotingProvider, double>(
+              Selector<SurveyProvider, double>(
                 selector: (_, provider) => provider.voteIdea,
                 builder: (context, score, __) {
                   return votingSection(
                     strings.vote_for_idea,
                     score,
                     (score) {
-                      context.read<VotingProvider>().changeScore(idea: score);
+                      context.read<SurveyProvider>().changeScore(idea: score);
                     },
                   );
                 },
               ),
-              Selector<VotingProvider, double>(
+              Selector<SurveyProvider, double>(
                 selector: (_, provider) => provider.votePresentation,
                 builder: (context, score, __) {
                   return votingSection(
@@ -155,13 +155,13 @@ class _VoteScreenState extends State<VoteScreen> {
                     score,
                     (score) {
                       context
-                          .read<VotingProvider>()
+                          .read<SurveyProvider>()
                           .changeScore(presentation: score);
                     },
                   );
                 },
               ),
-              Selector<VotingProvider, double>(
+              Selector<SurveyProvider, double>(
                 selector: (_, provider) => provider.voteImplementation,
                 builder: (context, score, __) {
                   return votingSection(
@@ -169,7 +169,7 @@ class _VoteScreenState extends State<VoteScreen> {
                     score,
                     (score) {
                       context
-                          .read<VotingProvider>()
+                          .read<SurveyProvider>()
                           .changeScore(implementation: score);
                     },
                   );
@@ -177,7 +177,7 @@ class _VoteScreenState extends State<VoteScreen> {
               ),
               Align(
                 alignment: AlignmentDirectional.bottomEnd,
-                child: Selector<VotingProvider, bool>(
+                child: Selector<SurveyProvider, bool>(
                   selector: (_, provider) => provider.isReadyToVote,
                   builder: (context, isReady, __) {
                     return ElevatedButton(
@@ -195,7 +195,7 @@ class _VoteScreenState extends State<VoteScreen> {
                         ),
                       ),
                       onPressed: isReady
-                          ? context.read<VotingProvider>().sendVote
+                          ? context.read<SurveyProvider>().sendVote
                           : null,
                       child: Text(strings.vote_send),
                     );

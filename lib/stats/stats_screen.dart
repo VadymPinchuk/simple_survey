@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_survey/chart/chart_provider.dart';
-import 'package:simple_survey/data/student.dart';
+import 'package:simple_survey/models/student.dart';
+import 'package:simple_survey/stats/stats_provider.dart';
 
-class ChartScreen extends StatefulWidget {
-  const ChartScreen({super.key});
+class StatsScreen extends StatefulWidget {
+  const StatsScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ChartScreenState();
+  State<StatefulWidget> createState() => _StatsScreenState();
 }
 
-class _ChartScreenState extends State<ChartScreen> {
+class _StatsScreenState extends State<StatsScreen> {
   @override
   void didChangeDependencies() {
-    context.read<ChartProvider>().requestStudents();
+    context.read<StatsProvider>().requestStudents();
     super.didChangeDependencies();
   }
 
@@ -41,7 +41,7 @@ class _ChartScreenState extends State<ChartScreen> {
                 ),
               ],
             ),
-            Selector<ChartProvider, List<Student>>(
+            Selector<StatsProvider, List<Student>>(
               selector: (_, provider) => provider.students,
               builder: (context, list, __) {
                 return Row(
@@ -71,7 +71,7 @@ class _ChartScreenState extends State<ChartScreen> {
     final scheme = theme.colorScheme;
     return Expanded(
       child: StreamBuilder<double>(
-        stream: context.read<ChartProvider>().getStudentScoreStream(student.id),
+        stream: context.read<StatsProvider>().getStudentScoreStream(student.id),
         builder: (context, snapshot) {
           double newScore = snapshot.data ?? 0;
           double total = student.score + newScore;
