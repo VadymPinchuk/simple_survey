@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:simple_survey/constructor/constructor_screen.dart';
 import 'package:simple_survey/list/surveys_list_screen.dart';
 import 'package:simple_survey/stats/stats_screen.dart';
-import 'package:simple_survey/web/admin_web_screen.dart';
+import 'package:simple_survey/survey/survey_screen.dart';
 
 enum Routes {
   surveys('surveys'),
@@ -50,7 +50,7 @@ final GoRouter routerWeb = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const AdminWebScreen();
+        return const SurveyScreen();
       },
     ),
   ],

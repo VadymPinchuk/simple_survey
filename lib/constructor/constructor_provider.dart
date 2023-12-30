@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:simple_survey/data/repository.dart';
 import 'package:simple_survey/models/survey.dart';
-import 'package:simple_survey/models/survey_question.dart';
+import 'package:simple_survey/models/questions/survey_question.dart';
 
 /// Survey creation/edition provider
 class ConstructorProvider extends ChangeNotifier {
@@ -61,9 +61,9 @@ class ConstructorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void saveSurvey() {
+  Future<void> saveSurvey() async {
     if (_survey != null) {
-      _repository.createOrUpdateSurvey(survey);
+      await _repository.createOrUpdateSurvey(survey);
     }
   }
 }

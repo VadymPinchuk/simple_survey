@@ -100,8 +100,7 @@ class VoteApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
-        routerConfig: router,
-        //kIsWeb ? routerWeb : router,
+        routerConfig: kIsWeb ? routerWeb : router,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         themeMode: ThemeMode.light,

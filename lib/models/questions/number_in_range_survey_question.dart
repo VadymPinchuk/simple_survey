@@ -1,4 +1,4 @@
-import 'package:simple_survey/models/survey_question.dart';
+import 'package:simple_survey/models/questions/survey_question.dart';
 
 class NumberInRangeSurveyQuestion extends SurveyQuestion {
   NumberInRangeSurveyQuestion._({
@@ -9,9 +9,9 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
     required this.maxValue,
   });
 
-  final double minValue;
-  final double maxValue;
-  late double selectedValue = minValue;
+  final int minValue;
+  final int maxValue;
+  late int selectedValue = minValue;
 
   factory NumberInRangeSurveyQuestion.empty() {
     return NumberInRangeSurveyQuestion._(
@@ -28,8 +28,8 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
-      minValue: json['minValue'] as double,
-      maxValue: json['maxValue'] as double,
+      minValue: json['minValue'] as int,
+      maxValue: json['maxValue'] as int,
     );
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_survey/models/single_number_survey_question.dart';
+import 'package:simple_survey/models/questions/number_in_range_survey_question.dart';
 import 'package:simple_survey/survey/survey_provider.dart';
 import 'package:simple_survey/widgets/questions/base_question_widget.dart';
 
@@ -15,11 +15,11 @@ class NumberInRangeQuestionWidget
   @override
   Widget childSpecificUI(BuildContext context) {
     return Slider(
-      value: question.selectedValue,
-      min: question.minValue,
-      max: question.maxValue,
-      divisions: 30,
-      label: question.selectedValue.round().toString(),
+      value: question.selectedValue.toDouble(),
+      min: question.minValue.toDouble(),
+      max: question.maxValue.toDouble(),
+      divisions: question.maxValue - question.minValue,
+      label: question.selectedValue.toString(),
       onChanged: (value) {
         context.read<SurveyProvider>();
       },

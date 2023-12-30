@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_survey/constructor/question/question_edit_provider.dart';
+import 'package:simple_survey/models/questions/number_in_range_survey_question.dart';
 import 'package:simple_survey/widgets/debounced_range_slider.dart';
 import 'package:simple_survey/widgets/debounced_text_field.dart';
-
-import '../../models/single_number_survey_question.dart';
 
 class QuestionEditDialog extends StatefulWidget {
   const QuestionEditDialog({super.key});
@@ -72,7 +72,7 @@ class _QuestionEditDialogState extends State<QuestionEditDialog> {
                 );
               } else {
                 context.read<QuestionEditProvider>().saveQuestion();
-                Navigator.of(context).pop();
+                context.pop();
               }
             },
           ),
@@ -88,7 +88,9 @@ class _QuestionEditDialogState extends State<QuestionEditDialog> {
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: DebouncedRangeSlider(
         values: RangeValues(
-            question.minValue.toDouble(), question.maxValue.toDouble()),
+          question.minValue.toDouble(),
+          question.maxValue.toDouble(),
+        ),
         min: 0,
         max: 100,
         // Set appropriate range

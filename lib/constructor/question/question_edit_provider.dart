@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:simple_survey/constructor/constructor_provider.dart';
-import 'package:simple_survey/models/survey_question.dart';
+import 'package:simple_survey/models/questions/survey_question.dart';
 
 class QuestionEditProvider extends ChangeNotifier {
   QuestionEditProvider(this._constructor);

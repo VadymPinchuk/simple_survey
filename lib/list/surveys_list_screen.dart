@@ -45,11 +45,13 @@ class SurveysListScreen extends StatelessWidget {
                     final String surveyId = snapshot.requireData[index].id;
                     await context
                         .read<ConstructorProvider>()
-                        .selectSurvey(surveyId);
-                    context.goNamed(
-                      Routes.constructor.name,
-                      pathParameters: {'sid': surveyId},
-                    );
+                        .selectSurvey(surveyId)
+                        .then(
+                          (value) => context.goNamed(
+                            Routes.constructor.name,
+                            pathParameters: {'sid': surveyId},
+                          ),
+                        );
                   },
                 );
               },

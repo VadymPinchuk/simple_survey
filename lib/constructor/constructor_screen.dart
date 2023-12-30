@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_survey/constructor/constructor_provider.dart';
 import 'package:simple_survey/constructor/question/question_edit_dialog.dart';
 import 'package:simple_survey/constructor/question/question_edit_provider.dart';
-import 'package:simple_survey/models/question_to_widget_transformer.dart';
+import 'package:simple_survey/models/questions/question_to_widget_transformer.dart';
+import 'package:simple_survey/models/questions/survey_question.dart';
 import 'package:simple_survey/models/survey.dart';
-import 'package:simple_survey/models/survey_question.dart';
 import 'package:simple_survey/widgets/debounced_text_field.dart';
 import 'package:simple_survey/widgets/questions/base_question_widget.dart';
 
@@ -44,8 +45,10 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
-            onPressed: () {
-              context.read<ConstructorProvider>().saveSurvey();
+            onPressed: () async {
+              await context.read<ConstructorProvider>().saveSurvey().then(
+                    (value) => context.pop(),
+                  );
             },
           ),
         ],

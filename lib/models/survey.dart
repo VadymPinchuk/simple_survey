@@ -1,4 +1,4 @@
-import 'package:simple_survey/models/survey_question.dart';
+import 'package:simple_survey/models/questions/survey_question.dart';
 
 class Survey {
   final String id;

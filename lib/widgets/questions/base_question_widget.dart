@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_survey/constructor/constructor_screen.dart';
 import 'package:simple_survey/constructor/question/question_edit_dialog.dart';
 import 'package:simple_survey/constructor/question/question_edit_provider.dart';
-import 'package:simple_survey/models/survey_question.dart';
+import 'package:simple_survey/models/questions/survey_question.dart';
 
 enum QuestionMode { edit, submit }
 
