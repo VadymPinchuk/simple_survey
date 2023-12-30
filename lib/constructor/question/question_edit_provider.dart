@@ -31,6 +31,11 @@ class QuestionEditProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool isQuestionFilled() {
+    return _question.title.isNotEmpty && _question.description.isNotEmpty;
+  }
+
+
   void saveQuestion() {
     _constructor.changeQuestion(question);
   }

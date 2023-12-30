@@ -16,7 +16,7 @@ class QuestionEditDialog extends StatefulWidget {
 class _QuestionEditDialogState extends State<QuestionEditDialog> {
   @override
   void didChangeDependencies() {
-    final question = context.read<QuestionEditProvider>().question;
+    // final question = context.read<QuestionEditProvider>().question;
     // if (question is SingleNumberSurveyQuestion) {
     //   SingleNumberSurveyQuestion singleNumberQuestion =
     //       question;
@@ -44,7 +44,7 @@ class _QuestionEditDialogState extends State<QuestionEditDialog> {
                   onChanged: context.read<QuestionEditProvider>().setTitle,
                 ),
               ),
-              const SizedBox.square(dimension: 12.0),
+              const SizedBox(height: 8),
               SizedBox(
                 width: double.infinity,
                 child: DebouncedTextField(
@@ -64,15 +64,15 @@ class _QuestionEditDialogState extends State<QuestionEditDialog> {
           TextButton(
             child: const Text('Save'),
             onPressed: () {
-              if (question.title.isEmpty || question.description.isEmpty) {
+              if (context.read<QuestionEditProvider>().isQuestionFilled()) {
+                context.read<QuestionEditProvider>().saveQuestion();
+                context.pop();
+              } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Title and description can\'t be empty'),
                   ),
                 );
-              } else {
-                context.read<QuestionEditProvider>().saveQuestion();
-                context.pop();
               }
             },
           ),

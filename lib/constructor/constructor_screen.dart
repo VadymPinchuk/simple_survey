@@ -23,22 +23,8 @@ class ConstructorScreen extends StatefulWidget {
 }
 
 class _ConstructorScreenState extends State<ConstructorScreen> {
-  TextEditingController? _titleController;
-  TextEditingController? _descriptionController;
-
-  void _addQuestion(SurveyQuestion question) {
-    context.read<ConstructorProvider>().changeQuestion(question);
-    Navigator.pop(context); // Close the bottom sheet
-    context.read<QuestionEditProvider>().editQuestion(question);
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => const QuestionEditDialog(),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final Survey survey = context.watch<ConstructorProvider>().survey;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Survey Constructor'),
@@ -53,38 +39,55 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            DebouncedTextField(
-              text: survey.title,
-              labelText: 'Survey Title',
-              onChanged: context.read<ConstructorProvider>().setTitle,
+      body: Selector<ConstructorProvider, Survey>(
+        selector: (_, provider) => provider.survey,
+        builder: (BuildContext context, Survey survey, Widget? child) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                DebouncedTextField(
+                  text: survey.title,
+                  labelText: 'Survey Title',
+                  onChanged: context.read<ConstructorProvider>().setTitle,
+                ),
+                const SizedBox(height: 8),
+                DebouncedTextField(
+                  text: survey.description,
+                  labelText: 'Survey short description',
+                  maxLines: 2,
+                  onChanged: context.read<ConstructorProvider>().setDescription,
+                ),
+                Expanded(
+                  child: survey.questions.isEmpty
+                      ? const Center(child: Text('No items added yet.'))
+                      : ListView.builder(
+                          itemCount: survey.questions.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return survey.questions[index]
+                                .toQuestionWidget(mode: QuestionMode.edit);
+                          },
+                        ),
+                ),
+              ],
             ),
-            DebouncedTextField(
-              text: survey.description,
-              labelText: 'Survey short description',
-              onChanged: context.read<ConstructorProvider>().setDescription,
-            ),
-            Expanded(
-              child: survey.questions.isEmpty
-                  ? const Center(child: Text('No items added yet.'))
-                  : ListView.builder(
-                      itemCount: survey.questions.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return survey.questions[index]
-                            .toQuestionWidget(QuestionMode.edit);
-                      },
-                    ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showBottomSheet(),
         child: const Icon(Icons.add),
       ),
+    );
+  }
+
+  void _addQuestion(SurveyQuestion question) {
+    context.read<ConstructorProvider>().changeQuestion(question);
+    context.pop(); // Close the bottom sheet
+    context.read<QuestionEditProvider>().editQuestion(question);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => const QuestionEditDialog(),
     );
   }
 

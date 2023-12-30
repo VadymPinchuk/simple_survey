@@ -9,9 +9,8 @@ class Repository {
 
   late FirebaseClient _client;
 
-  Future<Survey> getSurveyById(String surveyId) async {
-    var surveys = await _client.getSurveysList();
-    return surveys.firstWhere((element) => element.id == surveyId);
+  Future<Survey?> getSurveyById(String surveyId) async {
+    return await _client.getSurveyById(surveyId);
   }
 
   Future<List<Survey>> getSurveysList() {

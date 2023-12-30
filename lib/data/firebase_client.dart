@@ -2,12 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:simple_survey/models/survey.dart';
 import 'package:simple_survey/models/vote.dart';
 
+class FirebaseCollections {
+  static const String surveys = 'surveys';
+  static const String responses = 'responses';
+}
+
 class FirebaseClient {
   /// A reference to the list of created surveys
   /// We are using `withConverter` to ensure
   /// that interactions with the collection are type-safe.
   final _surveysRef =
-      FirebaseFirestore.instance.collection('surveys').withConverter<Survey>(
+      FirebaseFirestore.instance.collection(FirebaseCollections.surveys).withConverter<Survey>(
             fromFirestore: (snapshots, _) => Survey.fromJson(
               snapshots.data()!,
             ),
@@ -16,7 +21,7 @@ class FirebaseClient {
 
   DocumentReference<Survey> _surveyDoc(String surveyId) {
     return FirebaseFirestore.instance
-        .doc('surveys/$surveyId')
+        .doc('${FirebaseCollections.surveys}/$surveyId')
         .withConverter<Survey>(
           fromFirestore: (snapshots, _) => Survey.fromJson(
             snapshots.data()!,
@@ -39,11 +44,9 @@ class FirebaseClient {
 
   /// Public API to get all created surveys as a List or Stream
 
-  Future<Survey> getSurveyById(String surveyId) async {
-    var snapshot = await _surveysRef.get();
-    return snapshot.docs
-        .map((e) => e.data())
-        .firstWhere((element) => element.id == surveyId);
+  Future<Survey?> getSurveyById(String surveyId) async {
+    var snapshot = await _surveyDoc(surveyId).get();
+    return snapshot.data();
   }
 
   Future<List<Survey>> getSurveysList() async {

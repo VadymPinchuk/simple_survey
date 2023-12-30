@@ -53,6 +53,7 @@ class _DebouncedTextFieldState extends State<DebouncedTextField> {
         style: widget.style,
         controller: _controller,
         maxLines: widget.maxLines,
+        textCapitalization: TextCapitalization.sentences,
         onChanged: _onChanged,
         decoration: widget.decoration ??
             InputDecoration(

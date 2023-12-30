@@ -5,12 +5,16 @@ import 'package:simple_survey/widgets/questions/base_question_widget.dart';
 import 'package:simple_survey/widgets/questions/number_in_range_question_widget.dart';
 
 extension QuestionToWidget on SurveyQuestion {
-  Widget toQuestionWidget(QuestionMode mode) {
+  Widget toQuestionWidget({
+    required QuestionMode mode,
+    Function(SurveyQuestion)? onChanged,
+  }) {
     return switch (type) {
       _ => NumberInRangeQuestionWidget(
-          this as NumberInRangeSurveyQuestion,
-          mode,
           key: Key(toString()),
+          question: this as NumberInRangeSurveyQuestion,
+          mode: mode,
+          onChanged: onChanged,
         ),
     };
   }

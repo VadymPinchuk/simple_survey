@@ -6,9 +6,9 @@ import 'package:simple_survey/stats/stats_screen.dart';
 import 'package:simple_survey/survey/survey_screen.dart';
 
 enum Routes {
-  surveys('surveys'),
+  surveyList('surveyList'),
   constructor('constructor'),
-  vote('vote'),
+  survey('survey'),
   stats('stats');
 
   final String name;
@@ -19,7 +19,7 @@ enum Routes {
 final GoRouter router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
-      name: Routes.surveys.name,
+      name: Routes.surveyList.name,
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
         return const SurveysListScreen();
@@ -48,10 +48,22 @@ final GoRouter router = GoRouter(
 final GoRouter routerWeb = GoRouter(
   routes: <RouteBase>[
     GoRoute(
+      name: Routes.surveyList.name,
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const SurveyScreen();
+        return const SurveysListScreen();
       },
+      routes: <RouteBase>[
+        GoRoute(
+          name: Routes.survey.name,
+          path: '${Routes.survey.name}/:sid',
+          builder: (BuildContext context, GoRouterState state) {
+            // final surveyId = 'WUrCUd5vMRsXmCftBAGy';
+            final surveyId = state.pathParameters['sid'] as String;
+            return SurveyScreen(surveyId: surveyId);
+          },
+        ),
+      ],
     ),
   ],
 );

@@ -1,4 +1,5 @@
 import 'package:simple_survey/models/questions/survey_question.dart';
+import 'package:uuid/uuid.dart';
 
 class NumberInRangeSurveyQuestion extends SurveyQuestion {
   NumberInRangeSurveyQuestion._({
@@ -15,7 +16,7 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
 
   factory NumberInRangeSurveyQuestion.empty() {
     return NumberInRangeSurveyQuestion._(
-      id: '${QuestionType.numberInRange.name} ${DateTime.now().toIso8601String()}',
+      id: '${QuestionType.numberInRange.name}-${const Uuid().v4()}',
       title: '',
       description: '',
       minValue: 0,

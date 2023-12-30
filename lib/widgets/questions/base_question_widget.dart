@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_survey/constructor/constructor_provider.dart';
 import 'package:simple_survey/constructor/constructor_screen.dart';
 import 'package:simple_survey/constructor/question/question_edit_dialog.dart';
 import 'package:simple_survey/constructor/question/question_edit_provider.dart';
@@ -10,14 +11,17 @@ enum QuestionMode { edit, submit }
 /// Widget with basic UI - title and description
 abstract class BaseQuestionWidget<T extends SurveyQuestion>
     extends StatelessWidget {
-  const BaseQuestionWidget(
-    this.question,
-    this.mode, {
+  const BaseQuestionWidget({
+    required this.question,
+    required this.mode,
+    this.onChanged,
     super.key,
   });
 
   final T question;
   final QuestionMode mode;
+
+  final Function(T)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +44,7 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion>
                       ),
                     ),
                   ),
+                  if (mode == QuestionMode.edit) _deleteButton(context),
                   if (mode == QuestionMode.edit) _editButton(context),
                 ],
               ),
@@ -55,6 +60,16 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion>
   /// UI specific to each child implementation:
   /// Slider, RangeSlider, Number, ets
   Widget childSpecificUI(BuildContext context);
+
+  /// Edit button is enabled in [ConstructorScreen]
+  Widget _deleteButton(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.delete),
+      onPressed: () {
+        context.read<ConstructorProvider>().deleteQuestion(question);
+      },
+    );
+  }
 
   /// Edit button is enabled in [ConstructorScreen]
   Widget _editButton(BuildContext context) {

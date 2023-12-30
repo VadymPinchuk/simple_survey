@@ -45,6 +45,7 @@ dependencies:
   firebase_crashlytics: ^3.4.8
   cloud_firestore: ^4.13.6
   firebase_auth: ^4.15.3
+  uuid: ^4.2.2
 
 dev_dependencies:
   flutter_test:

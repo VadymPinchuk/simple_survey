@@ -61,6 +61,16 @@ class ConstructorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteQuestion(SurveyQuestion question) {
+    final List<SurveyQuestion> questionsList = survey.questions;
+    final int indexOf = questionsList.indexWhere((e) => e.id == question.id);
+    if (indexOf != -1) {
+      questionsList.removeAt(indexOf);
+    }
+    _survey = survey.copyWith(questions: List.from(questionsList));
+    notifyListeners();
+  }
+
   Future<void> saveSurvey() async {
     if (_survey != null) {
       await _repository.createOrUpdateSurvey(survey);
