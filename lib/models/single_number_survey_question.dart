@@ -11,7 +11,7 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
 
   final double minValue;
   final double maxValue;
-  late double selectedValue = 0;
+  late double selectedValue = minValue;
 
   factory NumberInRangeSurveyQuestion.empty() {
     return NumberInRangeSurveyQuestion._(

@@ -40,7 +40,7 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion>
                       ),
                     ),
                   ),
-                  if (mode == QuestionMode.edit) _buildEditButton(context),
+                  if (mode == QuestionMode.edit) _editButton(context),
                 ],
               ),
               Text(question.description, style: theme.bodyMedium),
@@ -57,20 +57,16 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion>
   Widget childSpecificUI(BuildContext context);
 
   /// Edit button is enabled in [ConstructorScreen]
-  Widget _buildEditButton(BuildContext context) {
-    return Positioned(
-      top: 0,
-      right: 0,
-      child: IconButton(
-        icon: const Icon(Icons.edit),
-        onPressed: () {
-          context.read<QuestionEditProvider>().editQuestion(question);
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => const QuestionEditDialog(),
-          );
-        },
-      ),
+  Widget _editButton(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.edit),
+      onPressed: () {
+        context.read<QuestionEditProvider>().editQuestion(question);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => const QuestionEditDialog(),
+        );
+      },
     );
   }
 }
