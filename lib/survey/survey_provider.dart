@@ -8,6 +8,8 @@ import 'package:simple_survey/util/device_data.dart';
 
 typedef Score = ({String id, double score, double current});
 
+/// SurveyProvider to be taken
+/// Not editable but for voting
 class SurveyProvider extends ChangeNotifier {
   SurveyProvider(this._repository);
 

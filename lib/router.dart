@@ -50,7 +50,7 @@ final GoRouter routerWeb = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return AdminWebScreen();
+        return const AdminWebScreen();
       },
     ),
   ],

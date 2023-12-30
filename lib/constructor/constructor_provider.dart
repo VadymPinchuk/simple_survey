@@ -5,6 +5,7 @@ import 'package:simple_survey/data/repository.dart';
 import 'package:simple_survey/models/survey.dart';
 import 'package:simple_survey/models/survey_question.dart';
 
+/// Survey creation/edition provider
 class ConstructorProvider extends ChangeNotifier {
   ConstructorProvider(this._repository);
 

@@ -17,8 +17,8 @@ abstract class SurveyQuestion {
     QuestionType type = QuestionType.fromString(json['type']);
 
     switch (type) {
-      case QuestionType.singleNumber:
-        return SingleNumberSurveyQuestion.fromJson(json);
+      case QuestionType.numberInRange:
+        return NumberInRangeSurveyQuestion.fromJson(json);
       // case QuestionType.singleChoice:
       //   return SingleChoiceSurveyQuestion.fromJson(json);
       // case QuestionType.multipleChoice:
@@ -37,7 +37,7 @@ abstract class SurveyQuestion {
     };
   }
 
-  SurveyQuestion copyWith({String? id, String? title, String? description});
+  SurveyQuestion copyWith({String? key, Object? value});
 
   @override
   String toString() =>
@@ -45,7 +45,7 @@ abstract class SurveyQuestion {
 }
 
 enum QuestionType {
-  singleNumber('singleNumber');
+  numberInRange('numberInRange');
   // singleChoice('singleChoice'),
   // multipleChoices('multipleChoices'),
   // freeFormText('freeFormText');
@@ -60,8 +60,8 @@ enum QuestionType {
 
   SurveyQuestion toSurveyQuestion() {
     return switch (this) {
-      QuestionType.singleNumber => SingleNumberSurveyQuestion.empty(),
-      _ => SingleNumberSurveyQuestion.empty(),
+      QuestionType.numberInRange => NumberInRangeSurveyQuestion.empty(),
+      _ => NumberInRangeSurveyQuestion.empty(),
     };
   }
 }

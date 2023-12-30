@@ -9,7 +9,7 @@ class StatsProvider extends ChangeNotifier {
 
   final Repository _repository;
 
-  List<Student> _students = List.empty();
+  final List<Student> _students = List.empty();
 
   List<Student> get students => _students;
   final List<StreamSubscription> _subscriptions = List.empty(growable: true);

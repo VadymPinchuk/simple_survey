@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_survey/constructor/constructor_provider.dart';
+import 'package:simple_survey/constructor/question/question_edit_dialog.dart';
+import 'package:simple_survey/constructor/question/question_edit_provider.dart';
 import 'package:simple_survey/models/question_to_widget_transformer.dart';
 import 'package:simple_survey/models/survey.dart';
 import 'package:simple_survey/models/survey_question.dart';
+import 'package:simple_survey/widgets/debounced_text_field.dart';
+import 'package:simple_survey/widgets/questions/base_question_widget.dart';
 
 class ConstructorScreen extends StatefulWidget {
   const ConstructorScreen({
@@ -24,16 +28,11 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
   void _addQuestion(SurveyQuestion question) {
     context.read<ConstructorProvider>().changeQuestion(question);
     Navigator.pop(context); // Close the bottom sheet
-  }
-
-  @override
-  void didChangeDependencies() {
-    final Survey survey = context.read<ConstructorProvider>().survey;
-    _titleController =
-        _titleController ?? TextEditingController(text: survey.title);
-    _descriptionController = _descriptionController ??
-        TextEditingController(text: survey.description);
-    super.didChangeDependencies();
+    context.read<QuestionEditProvider>().editQuestion(question);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => const QuestionEditDialog(),
+    );
   }
 
   @override
@@ -55,15 +54,14 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: <Widget>[
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Survey Title'),
+            DebouncedTextField(
+              text: survey.title,
+              labelText: 'Survey Title',
               onChanged: context.read<ConstructorProvider>().setTitle,
             ),
-            TextField(
-              controller: _descriptionController,
-              decoration:
-                  const InputDecoration(labelText: 'Survey short description'),
+            DebouncedTextField(
+              text: survey.description,
+              labelText: 'Survey short description',
               onChanged: context.read<ConstructorProvider>().setDescription,
             ),
             Expanded(
@@ -72,7 +70,8 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
                   : ListView.builder(
                       itemCount: survey.questions.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return survey.questions[index].toQuestionWidget();
+                        return survey.questions[index]
+                            .toQuestionWidget(QuestionMode.edit);
                       },
                     ),
             ),
@@ -81,7 +80,7 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showBottomSheet(),
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

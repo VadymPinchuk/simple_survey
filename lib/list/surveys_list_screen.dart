@@ -18,6 +18,7 @@ class SurveysListScreen extends StatelessWidget {
       body: FutureBuilder<List<Survey>>(
           future: context.read<SurveysListProvider>().getSurveysList(),
           builder: (context, snapshot) {
+            print(snapshot.toString());
             if (!snapshot.hasData) {
               return const Center(
                 child: SizedBox.square(
@@ -38,14 +39,13 @@ class SurveysListScreen extends StatelessWidget {
                 return ListTile(
                   title: Text(
                     snapshot.requireData[index].titleToPascalCase(),
-                    style: theme
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(color: colors.onBackground),
+                    style: theme.textTheme.titleMedium!,
                   ),
                   onTap: () async {
                     final String surveyId = snapshot.requireData[index].id;
-                    await context.read<ConstructorProvider>().selectSurvey(surveyId);
+                    await context
+                        .read<ConstructorProvider>()
+                        .selectSurvey(surveyId);
                     context.goNamed(
                       Routes.constructor.name,
                       pathParameters: {'sid': surveyId},

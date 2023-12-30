@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_survey/constructor/constructor_provider.dart';
+import 'package:simple_survey/constructor/question/question_edit_provider.dart';
 import 'package:simple_survey/data/repository.dart';
 import 'package:simple_survey/firebase_options.dart';
 import 'package:simple_survey/list/surveys_list_provider.dart';
@@ -18,15 +19,15 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Logs.initialize();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // // Record any exception
-  // FlutterError.onError = (errorDetails) {
-  //   FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
-  // };
-  // // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
-  // PlatformDispatcher.instance.onError = (error, stack) {
-  //   FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-  //   return true;
-  // };
+  // Record any exception
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+  };
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
   FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
   );
@@ -83,6 +84,11 @@ class VoteApp extends StatelessWidget {
           ),
         ),
         ChangeNotifierProvider(
+          create: (context) => QuestionEditProvider(
+            context.read<ConstructorProvider>(),
+          ),
+        ),
+        ChangeNotifierProvider(
           create: (context) => SurveyProvider(
             context.read<Repository>(),
           ),
@@ -98,21 +104,14 @@ class VoteApp extends StatelessWidget {
         //kIsWeb ? routerWeb : router,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
+        themeMode: ThemeMode.light,
         theme: ThemeData.light().copyWith(
           colorScheme: lightScheme,
           brightness: Brightness.light,
-          appBarTheme: ThemeData.light().appBarTheme.copyWith(
-                backgroundColor: lightScheme.secondaryContainer,
-                foregroundColor: lightScheme.onSecondaryContainer,
-              ),
         ),
         darkTheme: ThemeData.dark().copyWith(
           colorScheme: darkScheme,
           brightness: Brightness.dark,
-          appBarTheme: ThemeData.dark().appBarTheme.copyWith(
-                backgroundColor: darkScheme.secondaryContainer,
-                foregroundColor: darkScheme.onSecondaryContainer,
-              ),
         ),
         debugShowCheckedModeBanner: false,
         onGenerateTitle: (context) =>

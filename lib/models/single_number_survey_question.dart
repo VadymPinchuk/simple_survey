@@ -1,11 +1,7 @@
 import 'package:simple_survey/models/survey_question.dart';
 
-class SingleNumberSurveyQuestion extends SurveyQuestion {
-  final int minValue;
-  final int maxValue;
-  late int selectedValue;
-
-  SingleNumberSurveyQuestion._({
+class NumberInRangeSurveyQuestion extends SurveyQuestion {
+  NumberInRangeSurveyQuestion._({
     required super.id,
     required super.title,
     required super.description,
@@ -13,9 +9,13 @@ class SingleNumberSurveyQuestion extends SurveyQuestion {
     required this.maxValue,
   });
 
-  factory SingleNumberSurveyQuestion.empty() {
-    return SingleNumberSurveyQuestion._(
-      id: DateTime.now().toString(),
+  final double minValue;
+  final double maxValue;
+  late double selectedValue = 0;
+
+  factory NumberInRangeSurveyQuestion.empty() {
+    return NumberInRangeSurveyQuestion._(
+      id: '${QuestionType.numberInRange.name} ${DateTime.now().toIso8601String()}',
       title: '',
       description: '',
       minValue: 0,
@@ -23,13 +23,13 @@ class SingleNumberSurveyQuestion extends SurveyQuestion {
     );
   }
 
-  factory SingleNumberSurveyQuestion.fromJson(Map<String, dynamic> json) {
-    return SingleNumberSurveyQuestion._(
+  factory NumberInRangeSurveyQuestion.fromJson(Map<String, dynamic> json) {
+    return NumberInRangeSurveyQuestion._(
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
-      minValue: json['minValue'] as int,
-      maxValue: json['maxValue'] as int,
+      minValue: json['minValue'] as double,
+      maxValue: json['maxValue'] as double,
     );
   }
 
@@ -42,27 +42,19 @@ class SingleNumberSurveyQuestion extends SurveyQuestion {
   }
 
   @override
-  SingleNumberSurveyQuestion copyWith({
-    String? id,
-    String? title,
-    String? description,
-    int? minValue,
-    int? maxValue,
-  }) {
-    return SingleNumberSurveyQuestion._(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      minValue: minValue ?? this.minValue,
-      maxValue: maxValue ?? this.maxValue,
-    );
+  NumberInRangeSurveyQuestion copyWith({String? key, Object? value}) {
+    Map<String, Object> json = toJson();
+    if (key != null && value != null) {
+      json[key] = value;
+    }
+    return NumberInRangeSurveyQuestion.fromJson(json);
   }
 
   @override
-  QuestionType get type => QuestionType.singleNumber;
+  QuestionType get type => QuestionType.numberInRange;
 
   @override
   String toString() {
-    return 'Checked${super.toString()}, minValue: $minValue, maxValue: $maxValue}';
+    return 'NumberInRange${super.toString()}, minValue: $minValue, maxValue: $maxValue}';
   }
 }
