@@ -50,7 +50,7 @@ class _QuestionEditDialogState extends State<QuestionEditDialog> {
                 child: DebouncedTextField(
                   text: question.description,
                   labelText: 'Description',
-                  maxLines: 3,
+                  maxLines: 2,
                   onChanged:
                       context.read<QuestionEditProvider>().setDescription,
                 ),

@@ -38,10 +38,12 @@ abstract class SurveyQuestion {
   }
 
   SurveyQuestion copyWith({String? key, Object? value});
+  Map<String, Object> toResponse();
 
   @override
   String toString() =>
       'SurveyQuestion{id: $id, title: $title, description: $description, type: ${type.name}}';
+
 }
 
 enum QuestionType {

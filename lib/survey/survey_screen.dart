@@ -63,6 +63,14 @@ class _SurveyScreenState extends State<SurveyScreen> {
         title: Text(survey.title),
         automaticallyImplyLeading: false,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.send),
+            onPressed: () async {
+              await context.read<SurveyProvider>().sendResponse().then(
+                    (value) => context.pop(),
+                  );
+            },
+          ),
           if (!kIsWeb)
             IconButton(
               onPressed: () => context.goNamed(Routes.stats.name),
@@ -90,12 +98,11 @@ class _SurveyScreenState extends State<SurveyScreen> {
                 itemBuilder: (BuildContext context, int index) {
                   return survey.questions[index].toQuestionWidget(
                     mode: QuestionMode.submit,
-                    onChanged:
-                        context.read<SurveyProvider>().updateProgress,
+                    onChanged: context.read<SurveyProvider>().updateProgress,
                   );
                 },
               ),
-            )
+            ),
           ],
         ),
       ),

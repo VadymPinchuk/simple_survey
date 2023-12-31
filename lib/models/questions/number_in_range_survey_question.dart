@@ -8,11 +8,12 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
     required super.description,
     required this.minValue,
     required this.maxValue,
+    required this.selectedValue,
   });
 
   final int minValue;
   final int maxValue;
-  late int selectedValue = minValue;
+  late int selectedValue;
 
   factory NumberInRangeSurveyQuestion.empty() {
     return NumberInRangeSurveyQuestion._(
@@ -21,6 +22,7 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
       description: '',
       minValue: 0,
       maxValue: 100,
+      selectedValue: 0,
     );
   }
 
@@ -31,6 +33,7 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
       description: json['description'] as String,
       minValue: json['minValue'] as int,
       maxValue: json['maxValue'] as int,
+      selectedValue: (json['selectedValue'] ?? json['minValue']) as int,
     );
   }
 
@@ -53,6 +56,13 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
 
   @override
   QuestionType get type => QuestionType.numberInRange;
+
+  @override
+  Map<String, Object> toResponse() {
+    final Map<String, Object> data = {};
+    data['selectedValue'] = selectedValue;
+    return data;
+  }
 
   @override
   String toString() {

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:simple_survey/constructor/constructor_screen.dart';
 import 'package:simple_survey/list/surveys_list_screen.dart';
-import 'package:simple_survey/stats/stats_screen.dart';
 import 'package:simple_survey/survey/survey_screen.dart';
 
 enum Routes {
@@ -33,13 +32,13 @@ final GoRouter router = GoRouter(
             return const ConstructorScreen();
           },
         ),
-        GoRoute(
-          name: Routes.stats.name,
-          path: '${Routes.stats.name}/:sid',
-          builder: (BuildContext context, GoRouterState state) {
-            return const StatsScreen();
-          },
-        ),
+        // GoRoute(
+        //   name: Routes.stats.name,
+        //   path: '${Routes.stats.name}/:sid',
+        //   builder: (BuildContext context, GoRouterState state) {
+        //     return const StatsScreen();
+        //   },
+        // ),
       ],
     ),
   ],

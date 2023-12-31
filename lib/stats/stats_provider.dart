@@ -31,17 +31,17 @@ class StatsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Stream<double> getStudentScoreStream(String studentId) {
-    return _repository.getVotesStream(studentId).map((list) {
-      var sum = list.fold(0.0, (prev, curr) {
-        return prev + curr.voteAverage;
-      });
-      // TEST ONLY (With my scores)
-      if (list.length == 1) return sum;
-      // Removing one participant with empty scores (me)
-      return sum / (list.length - 1);
-    });
-  }
+  // Stream<double> getStudentScoreStream(String studentId) {
+  //   return _repository.getVotesStream(studentId).map((list) {
+  //     var sum = list.fold(0.0, (prev, curr) {
+  //       return prev + curr.voteAverage;
+  //     });
+  //     // TEST ONLY (With my scores)
+  //     if (list.length == 1) return sum;
+  //     // Removing one participant with empty scores (me)
+  //     return sum / (list.length - 1);
+  //   });
+  // }
 
   @override
   void dispose() {

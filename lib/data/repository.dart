@@ -1,6 +1,5 @@
 import 'package:simple_survey/data/firebase_client.dart';
 import 'package:simple_survey/models/survey.dart';
-import 'package:simple_survey/models/vote.dart';
 
 class Repository {
   Repository() {
@@ -27,11 +26,11 @@ class Repository {
     }
   }
 
-  void sendVote(String studentId, Vote vote) {
-    _client.voteFor(studentId, vote);
+  Future<void> sendResponse(String respondentId, Survey survey) async {
+    await _client.sendResponse(respondentId, survey);
   }
-
-  Stream<List<Vote>> getVotesStream(String studentId) {
-    return _client.getVotesStream(studentId);
-  }
+//
+// Stream<List<Vote>> getVotesStream(String studentId) {
+//   return _client.getVotesStream(studentId);
+// }
 }
