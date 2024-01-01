@@ -4,7 +4,7 @@ class Student {
 
   final double score;
 
-  Student._({
+  Student({
     required this.id,
     required this.name,
     required this.score,
@@ -22,15 +22,15 @@ class Student {
   }
 
   Student copyWith(double current) {
-    return Student._(
+    return Student(
       id: id,
       name: name,
-      score: score,
+      score: current,
     );
   }
 
   factory Student.fromJson(String id, Map<String, dynamic> json) {
-    return Student._(
+    return Student(
       id: id,
       name: json['name'],
       score: json['score'] as double,

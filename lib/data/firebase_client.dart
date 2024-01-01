@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:simple_survey/models/questions/survey_question.dart';
 import 'package:simple_survey/models/survey.dart';
+import 'package:simple_survey/util/uuid_generator.dart';
 
 class CollectionKeys {
   static const String surveys = 'surveys';
   static const String responses = 'responses';
   static const String questions = 'questions';
+  static const String respondents = 'respondents';
 }
 
 class FirebaseClient {
@@ -21,7 +23,8 @@ class FirebaseClient {
         toFirestore: (survey, _) => survey.toJson(),
       );
 
-  DocumentReference<Survey> _surveyDoc(String surveyId) {
+  /// Specific [Survey] doc reference
+  DocumentReference<Survey> _surveyDocRef(String surveyId) {
     return FirebaseFirestore.instance
         .doc('${CollectionKeys.surveys}/$surveyId')
         .withConverter<Survey>(
@@ -32,23 +35,23 @@ class FirebaseClient {
         );
   }
 
-  DocumentReference<Survey> _surveyCollection(String surveyId) {
-    return FirebaseFirestore.instance
-        .doc('${CollectionKeys.responses}/$surveyId')
-        .withConverter<Survey>(
-          fromFirestore: (snapshots, _) => Survey.fromJson(
-            snapshots.data()!,
-          ),
-          toFirestore: (survey, _) => survey.toJson(),
-        );
-  }
-
-  DocumentReference<SurveyQuestion> _questionInResponsesDoc(
-    String surveyID,
-    String questionID,
+  /// Collection of responses
+  /// for specific [SurveyQuestion] by its id from [Survey]
+  CollectionReference<Map<String, dynamic>> _responsesColRef(
+    String surveyId,
+    String questionId,
   ) {
     return FirebaseFirestore.instance
-        .doc('$surveyID/$questionID')
+        .collection('$surveyId/$questionId/${CollectionKeys.responses}');
+  }
+
+  /// FIXME: - review if needed
+  DocumentReference<SurveyQuestion> _questionInResponsesDoc(
+    String surveyId,
+    String questionId,
+  ) {
+    return FirebaseFirestore.instance
+        .doc('$surveyId/$questionId')
         .withConverter<SurveyQuestion>(
           fromFirestore: (snapshots, _) => SurveyQuestion.fromJson(
             snapshots.data()!,
@@ -57,30 +60,24 @@ class FirebaseClient {
         );
   }
 
-  CollectionReference<Map<String, dynamic>> _respondentsCollection() {
-    return FirebaseFirestore.instance.collection('respondents');
+  /// All respondents collection reference
+  CollectionReference<Map<String, dynamic>> _respondentsColRef() {
+    return FirebaseFirestore.instance.collection(CollectionKeys.respondents);
   }
 
-  DocumentReference<Map<String, dynamic>> _questionResponseDoc(
+  /// Reference to ta document for specific respondent response
+  DocumentReference<Map<String, dynamic>> _responseDocRef(
     String surveyId,
     String questionId,
     String respondentId,
   ) {
-    return FirebaseFirestore.instance
-        .doc('$surveyId/$questionId/${CollectionKeys.responses}/$respondentId');
-    // .withConverter<SurveyQuestion>(
-    //   fromFirestore: (snapshots, _) => SurveyQuestion.fromJson(
-    //     snapshots.data()!,
-    //   ),
-    //   toFirestore: (question, _) => question.toJson(),
-    // );
+    return _responsesColRef(surveyId, questionId).doc(respondentId);
   }
 
-  /// Public API to get all created surveys as a List or Stream
-
-  Future<Survey?> getSurveyById(String surveyId) async {
-    var snapshot = await _surveyDoc(surveyId).get();
-    return snapshot.data();
+  /// Public API to get [Survey]
+  Future<Survey> getSurveyById(String surveyId) async {
+    var snapshot = await _surveyDocRef(surveyId).get();
+    return snapshot.data()!;
   }
 
   Future<List<Survey>> getSurveysList() async {
@@ -102,7 +99,7 @@ class FirebaseClient {
 
   /// Public API to update existing Survey record
   Future<void> updateSurvey(Survey survey) async {
-    await _surveyDoc(survey.id).set(survey);
+    await _surveyDocRef(survey.id).set(survey);
     for (var question in survey.questions) {
       await _saveQuestionInResponses(survey.id, question);
     }
@@ -117,10 +114,22 @@ class FirebaseClient {
     }
   }
 
+  /// Public API to save respondent information
   Future<void> saveRespondent(
     Map<String, dynamic> data,
   ) {
-    return _respondentsCollection().add(data);
+    final String uuid = uuidFrom(data);
+    return _respondentsColRef().doc(uuid).set(data);
+  }
+
+  /// Public API to vote for student by id
+  Stream<List<Map<String, dynamic>>> getResponsesStream(
+    String surveyId,
+    String questionId,
+  ) {
+    return _responsesColRef(surveyId, questionId).snapshots().map((event) {
+      return event.docs.map((e) => e.data()).toList();
+    });
   }
 
   Future<void> _saveQuestionInResponses(
@@ -136,14 +145,6 @@ class FirebaseClient {
     String respondentId,
     Map<String, Object> response,
   ) async {
-    await _questionResponseDoc(surveyId, questionId, respondentId)
-        .set(response);
+    await _responseDocRef(surveyId, questionId, respondentId).set(response);
   }
-
-  /// Public API to vote for student by id
-// Stream<List<Vote>> getVotesStream(String studentId) {
-//   return _questionResponsesRef(studentId).snapshots().map((event) {
-//     return event.docs.map((e) => e.data()).toList();
-//   });
-// }
 }

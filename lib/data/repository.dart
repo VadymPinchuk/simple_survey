@@ -8,7 +8,7 @@ class Repository {
 
   late FirebaseClient _client;
 
-  Future<Survey?> getSurveyById(String surveyId) async {
+  Future<Survey> getSurveyById(String surveyId) async {
     return await _client.getSurveyById(surveyId);
   }
 
@@ -33,8 +33,9 @@ class Repository {
   Future<void> sendResponse(String respondentId, Survey survey) async {
     await _client.sendResponse(respondentId, survey);
   }
-//
-// Stream<List<Vote>> getVotesStream(String studentId) {
-//   return _client.getVotesStream(studentId);
-// }
+
+  Stream<List<Map<String, dynamic>>> getResponsesStream(
+      String surveyId, String questionId) {
+    return _client.getResponsesStream(surveyId, questionId);
+  }
 }

@@ -38,30 +38,39 @@ class SurveysListScreen extends StatelessWidget {
             return ListView.builder(
               itemCount: snapshot.requireData.length,
               itemBuilder: (context, index) {
+                final Survey survey = snapshot.requireData[index];
                 return ListTile(
                   title: Text(
-                    snapshot.requireData[index].titleToPascalCase(),
+                    survey.titleToPascalCase(),
                     style: theme.textTheme.titleMedium!,
                   ),
-                  onTap: () async {
-                    final String surveyId = snapshot.requireData[index].id;
-                    // TODO: fix if before release
-                    if (kIsWeb) {
-                      context.goNamed(
-                        Routes.constructor.name,
-                        pathParameters: {'sid': surveyId},
-                      );
-                      // context.goNamed(
-                      //   Routes.survey.name,
-                      //   pathParameters: {'sid': surveyId},
-                      // );
-                    } else {
-                      context.goNamed(
-                        Routes.constructor.name,
-                        pathParameters: {'sid': surveyId},
-                      );
-                    }
-                  },
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (kIsWeb)
+                        IconButton(
+                          onPressed: () => context.goNamed(
+                            Routes.survey.name,
+                            pathParameters: {'sid': survey.id},
+                          ),
+                          icon: const Icon(Icons.arrow_forward_ios_outlined),
+                        ),
+                      IconButton(
+                        onPressed: () => context.goNamed(
+                          Routes.stats.name,
+                          pathParameters: {'sid': survey.id},
+                        ),
+                        icon: const Icon(Icons.bar_chart),
+                      ),
+                      IconButton(
+                        onPressed: () => context.goNamed(
+                          Routes.constructor.name,
+                          pathParameters: {'sid': survey.id},
+                        ),
+                        icon: const Icon(Icons.edit),
+                      ),
+                    ],
+                  ),
                 );
               },
             );

@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/widgets.dart';
 import 'package:simple_survey/data/repository.dart';
 import 'package:simple_survey/models/questions/survey_question.dart';
 import 'package:simple_survey/models/survey.dart';
 import 'package:simple_survey/util/device_data.dart';
+import 'package:simple_survey/util/uuid_generator.dart';
 
 typedef Score = ({String id, double score, double current});
 
@@ -16,7 +16,7 @@ class SurveyProvider extends ChangeNotifier {
 
   final Repository _repository;
 
-  Map<String, dynamic> _deviceData = <String, dynamic>{};
+  late String _respondentUuid;
 
   late String _surveyId;
   Survey? _survey;
@@ -30,9 +30,10 @@ class SurveyProvider extends ChangeNotifier {
 
   Future<void> _fetchSurvey() async {
     if (_survey == null || _surveyId != _survey?.id) {
+      final deviceData = await readPlatformData();
+      _respondentUuid = uuidFrom(deviceData);
       _survey = await _repository.getSurveyById(_surveyId);
-      _deviceData = await readPlatformData();
-      await _repository.saveRespondent(_deviceData);
+      await _repository.saveRespondent(deviceData);
       notifyListeners();
     }
   }
@@ -50,6 +51,6 @@ class SurveyProvider extends ChangeNotifier {
   }
 
   Future<void> sendResponse() async {
-    await _repository.sendResponse(_deviceData.hashCode.toString(), _survey!);
+    await _repository.sendResponse(_respondentUuid, _survey!);
   }
 }
