@@ -24,13 +24,14 @@ class SurveyProvider extends ChangeNotifier {
 
   Future<void> selectSurvey(String surveyId) async {
     _surveyId = surveyId;
-    await _fetchSurvey(_surveyId);
+    await _fetchSurvey();
   }
 
-  Future<void> _fetchSurvey(String surveyId) async {
-    if (_survey == null || surveyId != _survey?.id) {
-      _survey = _survey ?? await _repository.getSurveyById(surveyId);
+  Future<void> _fetchSurvey() async {
+    if (_survey == null || _surveyId != _survey?.id) {
+      _survey = await _repository.getSurveyById(_surveyId);
       _deviceData = await readPlatformData();
+      await _repository.saveRespondent(_deviceData);
       notifyListeners();
     }
   }

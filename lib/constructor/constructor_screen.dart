@@ -10,19 +10,11 @@ import 'package:simple_survey/models/survey.dart';
 import 'package:simple_survey/widgets/debounced_text_field.dart';
 import 'package:simple_survey/widgets/questions/base_question_widget.dart';
 
-class ConstructorScreen extends StatefulWidget {
-  const ConstructorScreen({
-    super.key,
-    // required this.surveyId,
-  });
+/// Survey creation / edition screen
+/// Enables user to modify main parts of the survey
+class ConstructorScreen extends StatelessWidget {
+  const ConstructorScreen({super.key});
 
-  // final String surveyId;
-
-  @override
-  State<StatefulWidget> createState() => _ConstructorScreenState();
-}
-
-class _ConstructorScreenState extends State<ConstructorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,13 +67,13 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showBottomSheet(),
+        onPressed: () => _showBottomSheet(context),
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  void _addQuestion(SurveyQuestion question) {
+  void _addQuestion(BuildContext context, SurveyQuestion question) {
     context.read<ConstructorProvider>().changeQuestion(question);
     context.pop(); // Close the bottom sheet
     context.read<QuestionEditProvider>().editQuestion(question);
@@ -91,7 +83,7 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
     );
   }
 
-  void _showBottomSheet() {
+  void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -102,7 +94,10 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
             return ListTile(
               title: Text(availableQuestions[index].name),
               onTap: () {
-                _addQuestion(availableQuestions[index].toSurveyQuestion());
+                _addQuestion(
+                  context,
+                  availableQuestions[index].toSurveyQuestion(),
+                );
               },
             );
           },

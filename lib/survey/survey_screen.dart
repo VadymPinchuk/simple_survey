@@ -8,13 +8,24 @@ import 'package:simple_survey/router.dart';
 import 'package:simple_survey/survey/survey_provider.dart';
 import 'package:simple_survey/widgets/questions/base_question_widget.dart';
 
-class SurveyScreen extends StatelessWidget {
+class SurveyScreen extends StatefulWidget {
   const SurveyScreen({
     super.key,
     required this.surveyId,
   });
 
   final String surveyId;
+
+  @override
+  State<SurveyScreen> createState() => _SurveyScreenState();
+}
+
+class _SurveyScreenState extends State<SurveyScreen> {
+  @override
+  void didChangeDependencies() {
+    context.read<SurveyProvider>().selectSurvey(widget.surveyId);
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +35,7 @@ class SurveyScreen extends StatelessWidget {
     if (survey == null) {
       return const Center(
         child: SizedBox.square(
-          dimension: 150,
+          dimension: 50,
           child: CircularProgressIndicator(),
         ),
       );

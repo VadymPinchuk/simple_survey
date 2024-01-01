@@ -43,7 +43,7 @@ class FirebaseClient {
         );
   }
 
-  DocumentReference<SurveyQuestion> _questionResponsesDoc(
+  DocumentReference<SurveyQuestion> _questionInResponsesDoc(
     String surveyID,
     String questionID,
   ) {
@@ -55,6 +55,10 @@ class FirebaseClient {
           ),
           toFirestore: (question, _) => question.toJson(),
         );
+  }
+
+  CollectionReference<Map<String, dynamic>> _respondentsCollection() {
+    return FirebaseFirestore.instance.collection('respondents');
   }
 
   DocumentReference<Map<String, dynamic>> _questionResponseDoc(
@@ -113,11 +117,17 @@ class FirebaseClient {
     }
   }
 
+  Future<void> saveRespondent(
+    Map<String, dynamic> data,
+  ) {
+    return _respondentsCollection().add(data);
+  }
+
   Future<void> _saveQuestionInResponses(
     String surveyId,
     SurveyQuestion question,
   ) async {
-    await _questionResponsesDoc(surveyId, question.id).set(question);
+    await _questionInResponsesDoc(surveyId, question.id).set(question);
   }
 
   Future<void> _setQuestionResponse(

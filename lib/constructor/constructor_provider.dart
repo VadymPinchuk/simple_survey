@@ -18,6 +18,7 @@ class ConstructorProvider extends ChangeNotifier {
 
   Survey get survey => _survey!;
 
+  /// Opening survey for edit or creating new survey
   Future<void> selectSurvey(String surveyId) async {
     _surveyId = surveyId;
     await _getSurveyById();
@@ -33,21 +34,26 @@ class ConstructorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Update survey title
   void setTitle(String title) {
     _survey = survey.copyWith(title: title);
     notifyListeners();
   }
 
+  /// Update survey description
   void setDescription(String description) {
     _survey = survey.copyWith(description: description);
     notifyListeners();
   }
 
+  /// Update survey status - active or inactive
+  /// Not used at the moment
   void changeState(bool isActive) {
     _survey = survey.copyWith(isActive: isActive);
     notifyListeners();
   }
 
+  /// Update survey questions
   void changeQuestion(SurveyQuestion question) {
     final List<SurveyQuestion> questionsList = survey.questions;
     final int indexOf = questionsList.indexWhere((e) => e.id == question.id);
@@ -61,18 +67,8 @@ class ConstructorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void activateQuestion(String questionId, bool isActive) {
-    final List<SurveyQuestion> questionsList = survey.questions;
-    final int indexOf = questionsList.indexWhere((e) => e.id == questionId);
-    if (indexOf != -1) {
-      SurveyQuestion question = questionsList.removeAt(indexOf);
-      question = question.copyWith(key: QuestionKey.isActive, value: isActive);
-      questionsList.insert(indexOf, question);
-    }
-    _survey = survey.copyWith(questions: List.from(questionsList));
-    notifyListeners();
-  }
-
+  /// API to delete question from the survey.
+  /// Not used at the moment
   void deleteQuestion(SurveyQuestion question) {
     final List<SurveyQuestion> questionsList = survey.questions;
     final int indexOf = questionsList.indexWhere((e) => e.id == question.id);
@@ -83,6 +79,7 @@ class ConstructorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// API to save the current state of the survey on the Firebase
   Future<void> saveSurvey() async {
     if (_survey != null) {
       await _repository.createOrUpdateSurvey(survey);

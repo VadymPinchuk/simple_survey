@@ -57,7 +57,6 @@ final GoRouter routerWeb = GoRouter(
           name: Routes.survey.name,
           path: '${Routes.survey.name}/:sid',
           builder: (BuildContext context, GoRouterState state) {
-            // final surveyId = 'WUrCUd5vMRsXmCftBAGy';
             final surveyId = state.pathParameters['sid'] as String;
             return SurveyScreen(surveyId: surveyId);
           },

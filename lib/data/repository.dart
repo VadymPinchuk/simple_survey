@@ -26,6 +26,10 @@ class Repository {
     }
   }
 
+  Future<void> saveRespondent(Map<String, dynamic> data) async {
+    await _client.saveRespondent(data);
+  }
+
   Future<void> sendResponse(String respondentId, Survey survey) async {
     await _client.sendResponse(respondentId, survey);
   }
