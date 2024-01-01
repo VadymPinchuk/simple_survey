@@ -1,11 +1,18 @@
 import 'package:simple_survey/models/questions/survey_question.dart';
 import 'package:uuid/uuid.dart';
 
+class NumberQuestionKey {
+  static const minValue = 'minValue';
+  static const maxValue = 'maxValue';
+  static const selectedValue = 'selectedValue';
+}
+
 class NumberInRangeSurveyQuestion extends SurveyQuestion {
   NumberInRangeSurveyQuestion._({
     required super.id,
     required super.title,
     required super.description,
+    required super.isActive,
     required this.minValue,
     required this.maxValue,
     required this.selectedValue,
@@ -20,6 +27,7 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
       id: '${QuestionType.numberInRange.name}-${const Uuid().v4()}',
       title: '',
       description: '',
+      isActive: true,
       minValue: 0,
       maxValue: 100,
       selectedValue: 0,
@@ -29,19 +37,21 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
   factory NumberInRangeSurveyQuestion.fromJson(Map<String, dynamic> json) {
     return NumberInRangeSurveyQuestion._(
       id: json['id'] as String,
-      title: json['title'] as String,
-      description: json['description'] as String,
-      minValue: json['minValue'] as int,
-      maxValue: json['maxValue'] as int,
-      selectedValue: (json['selectedValue'] ?? json['minValue']) as int,
+      title: json[QuestionKey.title] as String,
+      description: json[QuestionKey.description] as String,
+      isActive: json[QuestionKey.isActive] as bool,
+      minValue: json[NumberQuestionKey.minValue] as int,
+      maxValue: json[NumberQuestionKey.maxValue] as int,
+      selectedValue: (json[NumberQuestionKey.selectedValue] ??
+          json[NumberQuestionKey.minValue]) as int,
     );
   }
 
   @override
   Map<String, Object> toJson() {
     final Map<String, Object> data = super.toJson();
-    data['minValue'] = minValue;
-    data['maxValue'] = maxValue;
+    data[NumberQuestionKey.minValue] = minValue;
+    data[NumberQuestionKey.maxValue] = maxValue;
     return data;
   }
 
@@ -60,12 +70,16 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
   @override
   Map<String, Object> toResponse() {
     final Map<String, Object> data = {};
-    data['selectedValue'] = selectedValue;
+    data[NumberQuestionKey.selectedValue] = selectedValue;
     return data;
   }
 
   @override
   String toString() {
-    return 'NumberInRange${super.toString()}, minValue: $minValue, maxValue: $maxValue}';
+    return 'NumberInRange${super.toString()}, '
+        '${NumberQuestionKey.minValue}: $minValue, '
+        '${NumberQuestionKey.maxValue}: $maxValue, '
+        '${NumberQuestionKey.selectedValue}: $selectedValue'
+        '}';
   }
 }

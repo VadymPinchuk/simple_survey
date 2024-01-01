@@ -18,11 +18,13 @@ class NumberInRangeQuestionWidget
       value: question.selectedValue.toDouble(),
       min: question.minValue.toDouble(),
       max: question.maxValue.toDouble(),
-      // divisions: question.maxValue - question.minValue,
-      // label: question.selectedValue.toString(),
       onChanged: (value) {
         onChanged?.call(
-            question.copyWith(key: 'selectedValue', value: value.round()));
+          question.copyWith(
+            key: NumberQuestionKey.selectedValue,
+            value: value.round(),
+          ),
+        );
       },
     );
   }

@@ -9,6 +9,7 @@ extension QuestionToWidget on SurveyQuestion {
     required QuestionMode mode,
     Function(SurveyQuestion)? onChanged,
   }) {
+    if (mode == QuestionMode.submit && !isActive) return const SizedBox.shrink();
     return switch (type) {
       _ => NumberInRangeQuestionWidget(
           key: Key(toString()),

@@ -8,24 +8,13 @@ import 'package:simple_survey/router.dart';
 import 'package:simple_survey/survey/survey_provider.dart';
 import 'package:simple_survey/widgets/questions/base_question_widget.dart';
 
-class SurveyScreen extends StatefulWidget {
+class SurveyScreen extends StatelessWidget {
   const SurveyScreen({
     super.key,
     required this.surveyId,
   });
 
   final String surveyId;
-
-  @override
-  State<StatefulWidget> createState() => _SurveyScreenState();
-}
-
-class _SurveyScreenState extends State<SurveyScreen> {
-  @override
-  void didChangeDependencies() {
-    context.read<SurveyProvider>().fetchSurvey(widget.surveyId);
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,24 +29,6 @@ class _SurveyScreenState extends State<SurveyScreen> {
         ),
       );
     }
-    // return FutureBuilder<Survey?>(
-    //   future: context.read<SurveyProvider>().fetchSurvey(widget.surveyId),
-    //   builder: (context, snapshot) {
-    //     if (!snapshot.hasData) {
-    //       return const Center(
-    //         child: SizedBox.square(
-    //           dimension: 150,
-    //           child: CircularProgressIndicator(),
-    //         ),
-    //       );
-    //     }
-    //     if (snapshot.data == null ||
-    //         snapshot.connectionState != ConnectionState.done) {
-    //       return const Center(
-    //         child: Text('No survey available'),
-    //       );
-    //     }
-    //     final Survey survey = snapshot.requireData!;
     return Scaffold(
       appBar: AppBar(
         title: Text(survey.title),
@@ -106,8 +77,6 @@ class _SurveyScreenState extends State<SurveyScreen> {
           ],
         ),
       ),
-      // );
-      // },
     );
   }
 }

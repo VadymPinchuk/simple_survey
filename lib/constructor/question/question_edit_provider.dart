@@ -19,11 +19,15 @@ class QuestionEditProvider extends ChangeNotifier {
   }
 
   void setTitle(String title) {
-    setParameter('title', title);
+    setParameter(QuestionKey.title, title);
   }
 
   void setDescription(String description) {
-    setParameter('description', description);
+    setParameter(QuestionKey.description, description);
+  }
+
+  void setActiveStatus(bool isActive) {
+    setParameter(QuestionKey.isActive, isActive);
   }
 
   void setParameter(String parameter, Object value) {
@@ -34,7 +38,6 @@ class QuestionEditProvider extends ChangeNotifier {
   bool isQuestionFilled() {
     return _question.title.isNotEmpty && _question.description.isNotEmpty;
   }
-
 
   void saveQuestion() {
     _constructor.changeQuestion(question);

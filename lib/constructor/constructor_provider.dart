@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:simple_survey/data/repository.dart';
-import 'package:simple_survey/models/survey.dart';
 import 'package:simple_survey/models/questions/survey_question.dart';
+import 'package:simple_survey/models/survey.dart';
 
 /// Survey creation/edition provider
 class ConstructorProvider extends ChangeNotifier {
@@ -55,6 +55,18 @@ class ConstructorProvider extends ChangeNotifier {
       questionsList.add(question);
     } else {
       questionsList.removeAt(indexOf);
+      questionsList.insert(indexOf, question);
+    }
+    _survey = survey.copyWith(questions: List.from(questionsList));
+    notifyListeners();
+  }
+
+  void activateQuestion(String questionId, bool isActive) {
+    final List<SurveyQuestion> questionsList = survey.questions;
+    final int indexOf = questionsList.indexWhere((e) => e.id == questionId);
+    if (indexOf != -1) {
+      SurveyQuestion question = questionsList.removeAt(indexOf);
+      question = question.copyWith(key: QuestionKey.isActive, value: isActive);
       questionsList.insert(indexOf, question);
     }
     _survey = survey.copyWith(questions: List.from(questionsList));

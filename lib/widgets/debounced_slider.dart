@@ -40,19 +40,19 @@ class _DebouncedSliderState extends State<DebouncedSlider> {
       max: widget.max,
       divisions: (widget.max - widget.min).toInt(),
       label: _currentValue.round().toString(),
-      onChanged: (double values) {
+      onChanged: (double value) {
         setState(() {
-          _currentValue = values;
+          _currentValue = value;
         });
-        _onChanged(values);
+        _onChanged(_currentValue);
       },
     );
   }
 
-  _onChanged(double values) {
+  _onChanged(double value) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(widget.debounceDuration, () {
-      widget.onChanged(values);
+      widget.onChanged(value);
     });
   }
 

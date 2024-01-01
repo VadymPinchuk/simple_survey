@@ -98,19 +98,20 @@ class FirebaseClient {
 
   /// Public API to update existing Survey record
   Future<void> updateSurvey(Survey survey) async {
-    await _surveyDoc(survey.id).update(survey.toJson());
+    await _surveyDoc(survey.id).set(survey);
     for (var question in survey.questions) {
       await _saveQuestionInResponses(survey.id, question);
     }
   }
 
+  /// Public API to send survey responses by each respondent
   Future<void> sendResponse(String respondentId, Survey survey) async {
     for (var question in survey.questions) {
       final response = question.toResponse();
-      await _setQuestionResponse(survey.id, question.id, respondentId, response);
+      await _setQuestionResponse(
+          survey.id, question.id, respondentId, response);
     }
   }
-
 
   Future<void> _saveQuestionInResponses(
     String surveyId,
@@ -125,7 +126,8 @@ class FirebaseClient {
     String respondentId,
     Map<String, Object> response,
   ) async {
-    await _questionResponseDoc(surveyId, questionId, respondentId).set(response);
+    await _questionResponseDoc(surveyId, questionId, respondentId)
+        .set(response);
   }
 
   /// Public API to vote for student by id

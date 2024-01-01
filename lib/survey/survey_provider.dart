@@ -24,13 +24,15 @@ class SurveyProvider extends ChangeNotifier {
 
   Future<void> selectSurvey(String surveyId) async {
     _surveyId = surveyId;
-    await fetchSurvey(_surveyId);
+    await _fetchSurvey(_surveyId);
   }
 
-  Future<void> fetchSurvey(String surveyId) async {
-    _survey = await _repository.getSurveyById(surveyId);
-    _deviceData = await readPlatformData();
-    notifyListeners();
+  Future<void> _fetchSurvey(String surveyId) async {
+    if (_survey == null || surveyId != _survey?.id) {
+      _survey = _survey ?? await _repository.getSurveyById(surveyId);
+      _deviceData = await readPlatformData();
+      notifyListeners();
+    }
   }
 
   void updateProgress(SurveyQuestion question) {
@@ -43,16 +45,9 @@ class SurveyProvider extends ChangeNotifier {
       questionsList.insert(indexOf, question);
     }
     _survey = survey!.copyWith(questions: List.from(questionsList));
-    notifyListeners();
   }
 
   Future<void> sendResponse() async {
     await _repository.sendResponse(_deviceData.hashCode.toString(), _survey!);
   }
-
-// Future<void> sendResponse() async {
-//   // _survey = await _repository.getSurveyById(surveyId);
-//   // _deviceData = await readPlatformData();
-//   // notifyListeners();
-// }
 }

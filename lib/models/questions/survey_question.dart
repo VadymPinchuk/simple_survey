@@ -1,15 +1,24 @@
 import 'package:simple_survey/models/questions/number_in_range_survey_question.dart';
 
+class QuestionKey {
+  static const title = 'title';
+  static const description = 'description';
+  static const isActive = 'isActive';
+  static const type = 'type';
+}
+
 abstract class SurveyQuestion {
   SurveyQuestion({
     required this.id,
     required this.title,
     required this.description,
+    required this.isActive,
   });
 
   final String id;
   final String title;
   final String description;
+  final bool isActive;
 
   QuestionType get type;
 
@@ -31,19 +40,25 @@ abstract class SurveyQuestion {
   Map<String, Object> toJson() {
     return {
       'id': id,
-      'title': title,
-      'description': description,
-      'type': type.name,
+      QuestionKey.title: title,
+      QuestionKey.description: description,
+      QuestionKey.isActive: isActive,
+      QuestionKey.type: type.name,
     };
   }
 
   SurveyQuestion copyWith({String? key, Object? value});
+
   Map<String, Object> toResponse();
 
   @override
-  String toString() =>
-      'SurveyQuestion{id: $id, title: $title, description: $description, type: ${type.name}}';
-
+  String toString() => 'SurveyQuestion{'
+      'id: $id, '
+      '${QuestionKey.title}: $title, '
+      '${QuestionKey.description}: $description, '
+      '${QuestionKey.isActive}: $isActive, '
+      '${QuestionKey.type}: ${type.name}'
+      '}';
 }
 
 enum QuestionType {

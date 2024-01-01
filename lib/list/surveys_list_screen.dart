@@ -6,6 +6,7 @@ import 'package:simple_survey/constructor/constructor_provider.dart';
 import 'package:simple_survey/list/surveys_list_provider.dart';
 import 'package:simple_survey/models/survey.dart';
 import 'package:simple_survey/router.dart';
+import 'package:simple_survey/survey/survey_provider.dart';
 
 class SurveysListScreen extends StatelessWidget {
   const SurveysListScreen({super.key});
@@ -46,12 +47,18 @@ class SurveysListScreen extends StatelessWidget {
                   ),
                   onTap: () async {
                     final String surveyId = snapshot.requireData[index].id;
-                    if (kIsWeb) {
-                      context.goNamed(
-                        Routes.survey.name,
-                        pathParameters: {'sid': surveyId},
-                      );
-                    } else {
+                    // TODO: fix if before release
+                    // if (kIsWeb) {
+                    //   await context
+                    //       .read<SurveyProvider>()
+                    //       .selectSurvey(surveyId)
+                    //       .then(
+                    //         (value) => context.goNamed(
+                    //           Routes.survey.name,
+                    //           pathParameters: {'sid': surveyId},
+                    //         ),
+                    //       );
+                    // } else {
                       await context
                           .read<ConstructorProvider>()
                           .selectSurvey(surveyId)
@@ -61,7 +68,7 @@ class SurveysListScreen extends StatelessWidget {
                               pathParameters: {'sid': surveyId},
                             ),
                           );
-                    }
+                    // }
                   },
                 );
               },

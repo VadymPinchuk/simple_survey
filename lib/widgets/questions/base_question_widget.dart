@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_survey/constructor/constructor_provider.dart';
 import 'package:simple_survey/constructor/constructor_screen.dart';
 import 'package:simple_survey/constructor/question/question_edit_dialog.dart';
 import 'package:simple_survey/constructor/question/question_edit_provider.dart';
@@ -25,10 +24,14 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
+    final text = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Card(
+        color: question.isActive
+            ? colors.primaryContainer
+            : colors.primaryContainer.withOpacity(0.7),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -39,16 +42,16 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion>
                   Expanded(
                     child: Text(
                       question.title,
-                      style: theme.titleMedium!.copyWith(
+                      style: text.titleMedium!.copyWith(
                         fontWeight: FontWeight.w800,
                       ),
                     ),
                   ),
-                  if (mode == QuestionMode.edit) _deleteButton(context),
+                  if (mode == QuestionMode.edit) _questionsActivity(context),
                   if (mode == QuestionMode.edit) _editButton(context),
                 ],
               ),
-              Text(question.description, style: theme.bodyMedium),
+              Text(question.description, style: text.bodyMedium),
               childSpecificUI(context),
             ],
           ),
@@ -62,12 +65,12 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion>
   Widget childSpecificUI(BuildContext context);
 
   /// Edit button is enabled in [ConstructorScreen]
-  Widget _deleteButton(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.delete),
-      onPressed: () {
-        context.read<ConstructorProvider>().deleteQuestion(question);
-      },
+  Widget _questionsActivity(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Text(
+        question.isActive ? 'Active' : 'Inactive',
+      ),
     );
   }
 
