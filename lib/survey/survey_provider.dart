@@ -31,7 +31,7 @@ class SurveyProvider extends ChangeNotifier {
   Future<void> _fetchSurvey() async {
     if (_survey == null || _surveyId != _survey?.id) {
       _survey = await _repository.getSurveyById(_surveyId);
-      _deviceData = (await DeviceInfoPlugin().deviceInfo).data;
+      _deviceData = await readPlatformData();
       await _repository.saveRespondent(_deviceData);
       notifyListeners();
     }
