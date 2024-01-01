@@ -12,8 +12,21 @@ import 'package:simple_survey/widgets/questions/base_question_widget.dart';
 
 /// Survey creation / edition screen
 /// Enables user to modify main parts of the survey
-class ConstructorScreen extends StatelessWidget {
-  const ConstructorScreen({super.key});
+class ConstructorScreen extends StatefulWidget {
+  const ConstructorScreen({super.key, required this.surveyId});
+
+  final String surveyId;
+
+  @override
+  State<ConstructorScreen> createState() => _ConstructorScreenState();
+}
+
+class _ConstructorScreenState extends State<ConstructorScreen> {
+  @override
+  void didChangeDependencies() {
+    context.read<ConstructorProvider>().selectSurvey(widget.surveyId);
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +44,17 @@ class ConstructorScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Selector<ConstructorProvider, Survey>(
+      body: Selector<ConstructorProvider, Survey?>(
         selector: (_, provider) => provider.survey,
-        builder: (BuildContext context, Survey survey, Widget? child) {
+        builder: (_, Survey? survey, __) {
+          if (survey == null) {
+            return const Center(
+              child: SizedBox.square(
+                dimension: 50,
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

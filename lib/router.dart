@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:simple_survey/constructor/constructor_screen.dart';
 import 'package:simple_survey/list/surveys_list_screen.dart';
+import 'package:simple_survey/list/thank_you_screen.dart';
 import 'package:simple_survey/survey/survey_screen.dart';
 
 enum Routes {
@@ -21,15 +23,23 @@ final GoRouter router = GoRouter(
       name: Routes.surveyList.name,
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const SurveysListScreen();
+        return kIsWeb ? const ThankYouScreen() : const SurveysListScreen();
       },
       routes: <RouteBase>[
         GoRoute(
           name: Routes.constructor.name,
           path: '${Routes.constructor.name}/:sid',
           builder: (BuildContext context, GoRouterState state) {
+            final String surveyId = state.pathParameters['sid'] as String;
+            return ConstructorScreen(surveyId: surveyId);
+          },
+        ),
+        GoRoute(
+          name: Routes.survey.name,
+          path: '${Routes.survey.name}/:sid',
+          builder: (BuildContext context, GoRouterState state) {
             final surveyId = state.pathParameters['sid'] as String;
-            return const ConstructorScreen();
+            return SurveyScreen(surveyId: surveyId);
           },
         ),
         // GoRoute(
@@ -39,28 +49,6 @@ final GoRouter router = GoRouter(
         //     return const StatsScreen();
         //   },
         // ),
-      ],
-    ),
-  ],
-);
-
-final GoRouter routerWeb = GoRouter(
-  routes: <RouteBase>[
-    GoRoute(
-      name: Routes.surveyList.name,
-      path: '/',
-      builder: (BuildContext context, GoRouterState state) {
-        return const SurveysListScreen();
-      },
-      routes: <RouteBase>[
-        GoRoute(
-          name: Routes.survey.name,
-          path: '${Routes.survey.name}/:sid',
-          builder: (BuildContext context, GoRouterState state) {
-            final surveyId = state.pathParameters['sid'] as String;
-            return SurveyScreen(surveyId: surveyId);
-          },
-        ),
       ],
     ),
   ],

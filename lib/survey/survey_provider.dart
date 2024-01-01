@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/widgets.dart';
 import 'package:simple_survey/data/repository.dart';
 import 'package:simple_survey/models/questions/survey_question.dart';
@@ -30,7 +31,7 @@ class SurveyProvider extends ChangeNotifier {
   Future<void> _fetchSurvey() async {
     if (_survey == null || _surveyId != _survey?.id) {
       _survey = await _repository.getSurveyById(_surveyId);
-      _deviceData = await readPlatformData();
+      _deviceData = (await DeviceInfoPlugin().deviceInfo).data;
       await _repository.saveRespondent(_deviceData);
       notifyListeners();
     }

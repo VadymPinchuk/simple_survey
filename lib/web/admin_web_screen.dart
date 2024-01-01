@@ -13,10 +13,6 @@ class AdminWebScreen extends StatelessWidget {
           flex: 1,
           child: SurveysListScreen(),
         ),
-        Expanded(
-          flex: 1,
-          child: ConstructorScreen(),
-        ),
       ],
     );
   }

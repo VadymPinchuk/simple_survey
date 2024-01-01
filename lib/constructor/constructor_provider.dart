@@ -16,7 +16,7 @@ class ConstructorProvider extends ChangeNotifier {
 
   String get surveyId => _surveyId;
 
-  Survey get survey => _survey!;
+  Survey? get survey => _survey;
 
   /// Opening survey for edit or creating new survey
   Future<void> selectSurvey(String surveyId) async {
@@ -25,37 +25,38 @@ class ConstructorProvider extends ChangeNotifier {
   }
 
   Future<void> _getSurveyById() async {
-    if (_survey != null) return;
-    if (surveyId.isNotEmpty) {
-      _survey = await _repository.getSurveyById(surveyId);
-    } else {
-      _survey = Survey.empty();
+    if (_survey == null || _survey?.id != _surveyId) {
+      if (surveyId.isNotEmpty) {
+        _survey = await _repository.getSurveyById(surveyId);
+      } else {
+        _survey = Survey.empty();
+      }
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   /// Update survey title
   void setTitle(String title) {
-    _survey = survey.copyWith(title: title);
+    _survey = survey!.copyWith(title: title);
     notifyListeners();
   }
 
   /// Update survey description
   void setDescription(String description) {
-    _survey = survey.copyWith(description: description);
+    _survey = survey!.copyWith(description: description);
     notifyListeners();
   }
 
   /// Update survey status - active or inactive
   /// Not used at the moment
   void changeState(bool isActive) {
-    _survey = survey.copyWith(isActive: isActive);
+    _survey = survey!.copyWith(isActive: isActive);
     notifyListeners();
   }
 
   /// Update survey questions
   void changeQuestion(SurveyQuestion question) {
-    final List<SurveyQuestion> questionsList = survey.questions;
+    final List<SurveyQuestion> questionsList = survey!.questions;
     final int indexOf = questionsList.indexWhere((e) => e.id == question.id);
     if (indexOf == -1) {
       questionsList.add(question);
@@ -63,26 +64,26 @@ class ConstructorProvider extends ChangeNotifier {
       questionsList.removeAt(indexOf);
       questionsList.insert(indexOf, question);
     }
-    _survey = survey.copyWith(questions: List.from(questionsList));
+    _survey = survey!.copyWith(questions: List.from(questionsList));
     notifyListeners();
   }
 
   /// API to delete question from the survey.
   /// Not used at the moment
   void deleteQuestion(SurveyQuestion question) {
-    final List<SurveyQuestion> questionsList = survey.questions;
+    final List<SurveyQuestion> questionsList = survey!.questions;
     final int indexOf = questionsList.indexWhere((e) => e.id == question.id);
     if (indexOf != -1) {
       questionsList.removeAt(indexOf);
     }
-    _survey = survey.copyWith(questions: List.from(questionsList));
+    _survey = survey!.copyWith(questions: List.from(questionsList));
     notifyListeners();
   }
 
   /// API to save the current state of the survey on the Firebase
   Future<void> saveSurvey() async {
     if (_survey != null) {
-      await _repository.createOrUpdateSurvey(survey);
+      await _repository.createOrUpdateSurvey(survey!);
     }
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_survey/constructor/constructor_provider.dart';
 import 'package:simple_survey/list/surveys_list_provider.dart';
 import 'package:simple_survey/models/survey.dart';
 import 'package:simple_survey/router.dart';
@@ -49,19 +48,18 @@ class SurveysListScreen extends StatelessWidget {
                     // TODO: fix if before release
                     if (kIsWeb) {
                       context.goNamed(
-                        Routes.survey.name,
+                        Routes.constructor.name,
                         pathParameters: {'sid': surveyId},
                       );
+                      // context.goNamed(
+                      //   Routes.survey.name,
+                      //   pathParameters: {'sid': surveyId},
+                      // );
                     } else {
-                      await context
-                          .read<ConstructorProvider>()
-                          .selectSurvey(surveyId)
-                          .then(
-                            (value) => context.goNamed(
-                              Routes.constructor.name,
-                              pathParameters: {'sid': surveyId},
-                            ),
-                          );
+                      context.goNamed(
+                        Routes.constructor.name,
+                        pathParameters: {'sid': surveyId},
+                      );
                     }
                   },
                 );
@@ -70,10 +68,9 @@ class SurveysListScreen extends StatelessWidget {
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.read<ConstructorProvider>().selectSurvey('');
           context.goNamed(
             Routes.constructor.name,
-            pathParameters: {'sid': 'newSurvey'},
+            pathParameters: {'sid': '  '},
           );
         },
         child: const Icon(Icons.add),
