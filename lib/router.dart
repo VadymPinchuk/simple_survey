@@ -24,7 +24,7 @@ final GoRouter router = GoRouter(
       name: Routes.surveyList.name,
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const SurveysListScreen(); //kIsWeb ? const ThankYouScreen() : const SurveysListScreen();
+        return kIsWeb ? const ThankYouScreen() : const SurveysListScreen();
       },
       routes: <RouteBase>[
         GoRoute(

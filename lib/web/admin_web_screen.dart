@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:simple_survey/constructor/constructor_screen.dart';
 import 'package:simple_survey/list/surveys_list_screen.dart';
 
 class AdminWebScreen extends StatelessWidget {

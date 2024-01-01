@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -34,7 +35,7 @@ class ThankYouScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 if (kIsWeb) {
-                  //window.close();
+                  window.close();
                 } else {
                   exit(0);
                 }
