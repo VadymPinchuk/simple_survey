@@ -5,27 +5,33 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_survey/chart/chart_provider.dart';
+import 'package:simple_survey/constructor/constructor_provider.dart';
+import 'package:simple_survey/constructor/question/question_edit_provider.dart';
 import 'package:simple_survey/data/repository.dart';
 import 'package:simple_survey/firebase_options.dart';
+import 'package:simple_survey/list/surveys_list_provider.dart';
 import 'package:simple_survey/router.dart';
+import 'package:simple_survey/stats/stats_provider.dart';
+import 'package:simple_survey/survey/survey_provider.dart';
 import 'package:simple_survey/util/logger.dart';
-import 'package:simple_survey/vote/voting_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Logs.initialize();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseFirestore.instance.settings = const Settings(
-    persistenceEnabled: true,
-  );
-  // Pass all uncaught "fatal" errors from the framework to Crashlytics
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  // Record any exception
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+  };
   // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
   PlatformDispatcher.instance.onError = (error, stack) {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+  );
+
   runApp(_buildApp(
     isWeb: kIsWeb,
     webAppWidth: 1280.0,
@@ -59,8 +65,7 @@ class VoteApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ColorScheme lightScheme =
-        ColorScheme.fromSeed(seedColor: Colors.red);
+    ColorScheme lightScheme = ColorScheme.fromSeed(seedColor: Colors.red);
     ColorScheme darkScheme = ColorScheme.fromSeed(seedColor: Colors.purple);
     return MultiProvider(
       providers: [
@@ -68,36 +73,44 @@ class VoteApp extends StatelessWidget {
           create: (_) => Repository(),
           lazy: false,
         ),
-        ChangeNotifierProvider(
-          create: (context) => VotingProvider(
+        Provider(
+          create: (context) => SurveysListProvider(
             context.read<Repository>(),
           ),
         ),
         ChangeNotifierProvider(
-          create: (context) => ChartProvider(
+          create: (context) => ConstructorProvider(
+            context.read<Repository>(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => QuestionEditProvider(
+            context.read<ConstructorProvider>(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SurveyProvider(
+            context.read<Repository>(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => StatsProvider(
             context.read<Repository>(),
           ),
         ),
       ],
       child: MaterialApp.router(
-        routerConfig: kIsWeb ? routerWeb : router,
+        routerConfig: router,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
+        themeMode: ThemeMode.light,
         theme: ThemeData.light().copyWith(
           colorScheme: lightScheme,
           brightness: Brightness.light,
-          appBarTheme: ThemeData.light().appBarTheme.copyWith(
-                backgroundColor: lightScheme.secondaryContainer,
-                foregroundColor: lightScheme.onSecondaryContainer,
-              ),
         ),
         darkTheme: ThemeData.dark().copyWith(
           colorScheme: darkScheme,
           brightness: Brightness.dark,
-          appBarTheme: ThemeData.dark().appBarTheme.copyWith(
-                backgroundColor: darkScheme.secondaryContainer,
-                foregroundColor: darkScheme.onSecondaryContainer,
-              ),
         ),
         debugShowCheckedModeBanner: false,
         onGenerateTitle: (context) =>
