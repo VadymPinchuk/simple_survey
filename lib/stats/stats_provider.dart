@@ -12,14 +12,10 @@ class StatsProvider extends ChangeNotifier {
 
   final Repository _repository;
   final List<StreamSubscription> _subscriptions = List.empty(growable: true);
-
-  late List<Student> _students = List.empty(growable: true);
   String? _surveyId;
-  late Survey _survey;
+  Survey? _survey;
 
-  List<Student> get students => _students;
-
-  Survey get survey => _survey;
+  Survey? get survey => _survey;
 
   String get surveyId => _surveyId!;
 
@@ -27,21 +23,25 @@ class StatsProvider extends ChangeNotifier {
     if (surveyId != _surveyId) {
       _surveyId = surveyId;
       _survey = await _repository.getSurveyById(surveyId);
-      for (SurveyQuestion question in _survey.questions) {
-        _students.add(Student(
-          id: question.id,
-          name: question.title,
-          score: (question as NumberInRangeSurveyQuestion)
-              .selectedValue
-              .toDouble(),
-        ));
+      List<SurveyQuestion> list = _survey!.questions;
+      for (SurveyQuestion question in _survey!.questions) {
+        // _students.add(Student(
+        //   id: question.id,
+        //   name: question.title,
+        //   score: (question as NumberInRangeSurveyQuestion)
+        //       .selectedValue
+        //       .toDouble(),
+        // ));
         _subscriptions.add(getQuestionResponsesStream(surveyId, question.id)
             .listen((response) {
-          int index = _students.indexWhere((stud) => stud.id == question.id);
-          Student student = _students.removeAt(index);
-          student = student.copyWith(response);
-          _students.insert(index, student);
-          _students = List.from(_students);
+          // FIXME: cleanup hardcode later
+          int index = list.indexWhere((stud) => stud.id == question.id);
+          SurveyQuestion newQuestion = list
+              .removeAt(index)
+              .copyWith(key: NumberQuestionKey.selectedValue, value: response.round());
+          list.insert(index, newQuestion);
+          list = List.from(list);
+          _survey = _survey!.copyWith(questions: list);
           notifyListeners();
         }));
       }
@@ -49,6 +49,7 @@ class StatsProvider extends ChangeNotifier {
     }
   }
 
+  // FIXME: hardcoded for one possible option only
   Stream<double> getQuestionResponsesStream(
     String surveyId,
     String questionId,

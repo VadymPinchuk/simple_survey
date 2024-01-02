@@ -34,8 +34,8 @@ Future<void> main() async {
 
   runApp(_buildApp(
     isWeb: kIsWeb,
-    webAppWidth: 1280.0,
-    webAppHeight: 800.0,
+    webAppHeight: 1600.0,
+    webAppWidth: 900.0,
     app: const VoteApp(),
   ));
 }

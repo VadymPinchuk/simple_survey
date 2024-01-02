@@ -11,10 +11,10 @@ enum QuestionMode { edit, submit }
 abstract class BaseQuestionWidget<T extends SurveyQuestion>
     extends StatelessWidget {
   const BaseQuestionWidget({
+    super.key,
     required this.question,
     required this.mode,
     this.onChanged,
-    super.key,
   });
 
   final T question;
@@ -24,14 +24,12 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion>
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
+    final color = Theme.of(context).cardColor;
     final text = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Card(
-        color: question.isActive
-            ? colors.primaryContainer
-            : colors.primaryContainer.withOpacity(0.7),
+        color: question.isActive ? color : color.withOpacity(0.7),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
