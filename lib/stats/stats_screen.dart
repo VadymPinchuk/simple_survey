@@ -69,7 +69,6 @@ class _StatsScreenState extends State<StatsScreen> {
   }
 
   Widget _singleBar(Student student) {
-    print(student.toString());
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     return Expanded(
