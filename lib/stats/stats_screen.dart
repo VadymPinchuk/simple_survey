@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_survey/models/questions/question_to_widget_transformer.dart';
-import 'package:simple_survey/models/questions/survey_question.dart';
+import 'package:simple_survey/models/survey.dart';
 import 'package:simple_survey/stats/stats_provider.dart';
+import 'package:simple_survey/widgets/loader.dart';
 
 class StatsScreen extends StatefulWidget {
   const StatsScreen({super.key, required this.surveyId});
@@ -23,29 +23,39 @@ class _StatsScreenState extends State<StatsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final strings = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(strings.chart_screen_title),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Stack(
-          children: [
-            Selector<StatsProvider, List<SurveyQuestion>>(
-              selector: (_, provider) =>
-                  provider.survey?.questions ?? List.empty(),
-              builder: (context, list, __) {
-                return Row(
+    return Selector<StatsProvider, Survey?>(
+      selector: (_, provider) => provider.survey,
+      builder: (context, survey, _) {
+        if (survey == null) return const Loader();
+        // final strings = AppLocalizations.of(context)!;
+        final textTheme = Theme.of(context).textTheme;
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(survey.title),
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    survey.description,
+                    style: textTheme.bodyLarge,
+                  ),
+                ),
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children:
-                      list.map((question) => question.toStatsWidget()).toList(),
-                );
-              },
+                  children: survey.questions
+                      .map((question) => question.toStatsWidget())
+                      .toList(),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

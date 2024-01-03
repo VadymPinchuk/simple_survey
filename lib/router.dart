@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:simple_survey/constructor/constructor_screen.dart';
 import 'package:simple_survey/list/surveys_list_screen.dart';
-import 'package:simple_survey/list/thank_you_screen.dart';
 import 'package:simple_survey/stats/stats_screen.dart';
 import 'package:simple_survey/survey/survey_screen.dart';
 
@@ -24,7 +22,8 @@ final GoRouter router = GoRouter(
       name: Routes.surveyList.name,
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return kIsWeb ? const ThankYouScreen() : const SurveysListScreen();
+        // return kIsWeb ? const ThankYouScreen() : const SurveysListScreen();
+        return const SurveysListScreen();
       },
       routes: <RouteBase>[
         GoRoute(

@@ -108,16 +108,16 @@ class _QuestionEditDialogState extends State<QuestionEditDialog> {
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: DebouncedRangeSlider(
         values: RangeValues(
-          question.minValue.toDouble(),
-          question.maxValue.toDouble(),
+          question.minValue,
+          question.maxValue,
         ),
-        min: 0,
-        max: 100,
+        min: 0.0,
+        max: 100.0,
         // Set appropriate range
         onChanged: (RangeValues values) {
           context.read<QuestionEditProvider>()
-            ..setParameter('minValue', values.start.round())
-            ..setParameter('maxValue', values.end.round());
+            ..setParameter(NumberQuestionKey.minValue, values.start)
+            ..setParameter(NumberQuestionKey.maxValue, values.end);
         },
       ),
     );

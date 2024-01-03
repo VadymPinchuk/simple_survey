@@ -15,14 +15,14 @@ class NumberInRangeQuestionWidget
   @override
   Widget childSpecificUI(BuildContext context) {
     return DebouncedSlider(
-      value: question.selectedValue.toDouble(),
-      min: question.minValue.toDouble(),
-      max: question.maxValue.toDouble(),
+      value: question.selectedValue,
+      min: question.minValue,
+      max: question.maxValue,
       onChanged: (value) {
         onChanged?.call(
           question.copyWith(
             key: NumberQuestionKey.selectedValue,
-            value: value.round(),
+            value: value,
           ),
         );
       },

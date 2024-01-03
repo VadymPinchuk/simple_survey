@@ -4,7 +4,6 @@ import 'package:flutter/widgets.dart';
 import 'package:simple_survey/data/repository.dart';
 import 'package:simple_survey/models/questions/number_in_range_survey_question.dart';
 import 'package:simple_survey/models/questions/survey_question.dart';
-import 'package:simple_survey/models/student.dart';
 import 'package:simple_survey/models/survey.dart';
 
 class StatsProvider extends ChangeNotifier {
@@ -25,22 +24,16 @@ class StatsProvider extends ChangeNotifier {
       _survey = await _repository.getSurveyById(surveyId);
       List<SurveyQuestion> list = _survey!.questions;
       for (SurveyQuestion question in _survey!.questions) {
-        // _students.add(Student(
-        //   id: question.id,
-        //   name: question.title,
-        //   score: (question as NumberInRangeSurveyQuestion)
-        //       .selectedValue
-        //       .toDouble(),
-        // ));
         _subscriptions.add(getQuestionResponsesStream(surveyId, question.id)
             .listen((response) {
           // FIXME: cleanup hardcode later
-          int index = list.indexWhere((stud) => stud.id == question.id);
-          SurveyQuestion newQuestion = list
-              .removeAt(index)
-              .copyWith(key: NumberQuestionKey.selectedValue, value: response.round());
-          list.insert(index, newQuestion);
-          list = List.from(list);
+          int index = list.indexWhere((q) => q.id == question.id);
+          if (index != -1) {
+            SurveyQuestion newQuestion = list.removeAt(index).copyWith(
+                key: NumberQuestionKey.selectedValue, value: response);
+            list.insert(index, newQuestion);
+            list = List.from(list);
+          }
           _survey = _survey!.copyWith(questions: list);
           notifyListeners();
         }));

@@ -18,9 +18,9 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
     required this.selectedValue,
   });
 
-  final int minValue;
-  final int maxValue;
-  late int selectedValue;
+  final double minValue;
+  final double maxValue;
+  late double selectedValue;
 
   factory NumberInRangeSurveyQuestion.empty() {
     return NumberInRangeSurveyQuestion._(
@@ -40,10 +40,10 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
       title: json[QuestionKey.title] as String,
       description: json[QuestionKey.description] as String,
       isActive: json[QuestionKey.isActive] as bool,
-      minValue: json[NumberQuestionKey.minValue] as int,
-      maxValue: json[NumberQuestionKey.maxValue] as int,
+      minValue: json[NumberQuestionKey.minValue] as double,
+      maxValue: json[NumberQuestionKey.maxValue] as double,
       selectedValue: (json[NumberQuestionKey.selectedValue] ??
-          json[NumberQuestionKey.minValue]) as int,
+          json[NumberQuestionKey.minValue]) as double,
     );
   }
 

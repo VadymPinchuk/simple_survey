@@ -32,7 +32,7 @@ class NumberInRangeStatsWidget
             ),
           ),
           Text(
-            '${question.selectedValue.round().toString()} / ${question.maxValue.round().toString()}',
+            '${question.selectedValue.toStringAsFixed(1)} / ${question.maxValue.toStringAsFixed(0)}',
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ],

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_survey/models/questions/question_to_widget_transformer.dart';
 import 'package:simple_survey/router.dart';
 import 'package:simple_survey/survey/survey_provider.dart';
+import 'package:simple_survey/widgets/loader.dart';
 import 'package:simple_survey/widgets/questions/base_question_widget.dart';
 
 class SurveyScreen extends StatefulWidget {
@@ -32,14 +33,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
     final theme = Theme.of(context);
     final strings = AppLocalizations.of(context)!;
     final survey = context.watch<SurveyProvider>().survey;
-    if (survey == null) {
-      return const Center(
-        child: SizedBox.square(
-          dimension: 50,
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
+    if (survey == null) return const Loader();
     return Scaffold(
       appBar: AppBar(
         title: Text(survey.title),

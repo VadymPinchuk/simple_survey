@@ -8,6 +8,7 @@ import 'package:simple_survey/models/questions/question_to_widget_transformer.da
 import 'package:simple_survey/models/questions/survey_question.dart';
 import 'package:simple_survey/models/survey.dart';
 import 'package:simple_survey/widgets/debounced_text_field.dart';
+import 'package:simple_survey/widgets/loader.dart';
 import 'package:simple_survey/widgets/questions/base_question_widget.dart';
 
 /// Survey creation / edition screen
@@ -47,14 +48,7 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
       body: Selector<ConstructorProvider, Survey?>(
         selector: (_, provider) => provider.survey,
         builder: (_, Survey? survey, __) {
-          if (survey == null) {
-            return const Center(
-              child: SizedBox.square(
-                dimension: 50,
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
+          if (survey == null) return const Loader();
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
