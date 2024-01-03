@@ -6,6 +6,7 @@ class QuestionKey {
   static const description = 'description';
   static const isActive = 'isActive';
   static const type = 'type';
+  static const numOfResponses = 'numOfResponses';
 }
 
 abstract class SurveyQuestion {
@@ -53,6 +54,8 @@ abstract class SurveyQuestion {
   SurveyQuestion copyWith({String? key, Object? value});
 
   Map<String, Object> toResponse();
+
+  Map<String, dynamic> responsesToStats(List<Map<String, dynamic>> rawData);
 
   @override
   String toString() => 'SurveyQuestion{'

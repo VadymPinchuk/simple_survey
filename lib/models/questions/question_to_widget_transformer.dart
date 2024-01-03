@@ -33,15 +33,17 @@ extension QuestionToWidget on SurveyQuestion {
     };
   }
 
-  Widget toStatsWidget() {
+  Widget toStatsWidget(Stream<Map<String, dynamic>> dataStream) {
     return switch (type) {
       QuestionType.yesNo => YesNoStatsWidget(
           key: Key(uuidFrom(toJson())),
           question: this as YesNoSurveyQuestion,
+          dataStream: dataStream,
         ),
       _ => NumberInRangeStatsWidget(
           key: Key(uuidFrom(toJson())),
           question: this as NumberInRangeSurveyQuestion,
+          dataStream: dataStream,
         ),
     };
   }

@@ -45,10 +45,15 @@ class _StatsScreenState extends State<StatsScreen> {
                     style: textTheme.bodyLarge,
                   ),
                 ),
-                Wrap(
-                  children: survey.questions
-                      .map((question) => question.toStatsWidget())
-                      .toList(),
+                Selector<StatsProvider, Map>(
+                  selector: (_, provider) => provider.streams,
+                  builder: (context, streams, _) {
+                    return Wrap(
+                      children: survey.questions
+                          .map((question) => question.toStatsWidget(streams[question.id]))
+                          .toList(),
+                    );
+                  },
                 ),
               ],
             ),

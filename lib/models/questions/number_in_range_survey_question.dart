@@ -69,9 +69,22 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
 
   @override
   Map<String, Object> toResponse() {
-    final Map<String, Object> data = {};
-    data[NumberQuestionKey.selectedValue] = selectedValue;
-    return data;
+    return {
+      NumberQuestionKey.selectedValue: selectedValue,
+    };
+  }
+
+  @override
+  Map<String, dynamic> responsesToStats(List<Map<String, dynamic>> rawData) {
+    final double sum = rawData.fold(0.0, (prev, curr) {
+      return prev + curr[NumberQuestionKey.selectedValue];
+    });
+    return <String, dynamic>{
+      QuestionKey.title: title,
+      QuestionKey.numOfResponses: rawData.length,
+      NumberQuestionKey.maxValue: maxValue,
+      NumberQuestionKey.selectedValue: sum / rawData.length,
+    };
   }
 
   @override

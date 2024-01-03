@@ -35,7 +35,9 @@ class Repository {
   }
 
   Stream<List<Map<String, dynamic>>> getResponsesStream(
-      String surveyId, String questionId) {
+    String surveyId,
+    String questionId,
+  ) {
     return _client.getResponsesStream(surveyId, questionId);
   }
 }

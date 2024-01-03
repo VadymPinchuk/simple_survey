@@ -7,6 +7,7 @@ class NumberInRangeStatsWidget
   const NumberInRangeStatsWidget({
     super.key,
     required super.question,
+    required super.dataStream,
     this.size = 100.0,
     this.strokeWidth = 15.0,
   });
@@ -15,7 +16,9 @@ class NumberInRangeStatsWidget
   final double strokeWidth;
 
   @override
-  Widget childSpecificUI(BuildContext context) {
+  Widget childSpecificUI(BuildContext context, Map<String, dynamic> data) {
+    final selected = data[NumberQuestionKey.selectedValue];
+    final max = data[NumberQuestionKey.maxValue];
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(
@@ -25,14 +28,14 @@ class NumberInRangeStatsWidget
             width: size,
             height: size,
             child: CircularProgressIndicator(
-              value: question.selectedValue / question.maxValue,
+              value: selected / max,
               strokeWidth: strokeWidth,
               backgroundColor: Colors.grey.shade300,
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
           Text(
-            '${question.selectedValue.toStringAsFixed(1)} / ${question.maxValue.toStringAsFixed(0)}',
+            '${selected.toStringAsFixed(1)} / ${max.toStringAsFixed(0)}',
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ],

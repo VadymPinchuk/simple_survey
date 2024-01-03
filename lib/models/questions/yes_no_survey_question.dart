@@ -3,6 +3,8 @@ import 'package:uuid/uuid.dart';
 
 class YesNoQuestionKey {
   static const selectedValue = 'selectedValue';
+  static const yesValue = 'yesValue';
+  static const noValue = 'noValue';
 }
 
 class YesNoSurveyQuestion extends SurveyQuestion {
@@ -50,10 +52,25 @@ class YesNoSurveyQuestion extends SurveyQuestion {
   QuestionType get type => QuestionType.yesNo;
 
   @override
+  @override
   Map<String, Object> toResponse() {
-    final Map<String, Object> data = {};
-    data[YesNoQuestionKey.selectedValue] = selectedValue;
-    return data;
+    return {
+      YesNoQuestionKey.selectedValue: selectedValue,
+    };
+  }
+
+  @override
+  Map<String, dynamic> responsesToStats(List<Map<String, dynamic>> rawData) {
+    final positive = rawData
+        .where((element) => element[YesNoQuestionKey.selectedValue] == true)
+        .length;
+    final negative = rawData.length - positive;
+    return <String, dynamic>{
+      QuestionKey.title: title,
+      QuestionKey.numOfResponses: rawData.length,
+      YesNoQuestionKey.yesValue: positive,
+      YesNoQuestionKey.noValue: negative,
+    };
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_survey/list/surveys_list_provider.dart';
 import 'package:simple_survey/models/survey.dart';
 import 'package:simple_survey/router.dart';
+import 'package:simple_survey/widgets/loader.dart';
 
 class SurveysListScreen extends StatelessWidget {
   const SurveysListScreen({super.key});
@@ -22,12 +23,7 @@ class SurveysListScreen extends StatelessWidget {
           future: context.read<SurveysListProvider>().getSurveysList(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return const Center(
-                child: SizedBox.square(
-                  dimension: 150,
-                  child: CircularProgressIndicator(),
-                ),
-              );
+              return const Loader();
             }
             if (snapshot.requireData.isEmpty ||
                 snapshot.connectionState != ConnectionState.done) {

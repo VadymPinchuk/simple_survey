@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:simple_survey/data/repository.dart';
-import 'package:simple_survey/models/questions/number_in_range_survey_question.dart';
 import 'package:simple_survey/models/questions/survey_question.dart';
 import 'package:simple_survey/models/survey.dart';
 
@@ -10,57 +9,35 @@ class StatsProvider extends ChangeNotifier {
   StatsProvider(this._repository);
 
   final Repository _repository;
-  final List<StreamSubscription> _subscriptions = List.empty(growable: true);
+
   String? _surveyId;
   Survey? _survey;
 
-  Survey? get survey => _survey;
+  /// question responses stream
+  final streams = <String, Stream<Map<String, dynamic>>>{};
 
-  String get surveyId => _surveyId!;
+  Survey? get survey => _survey;
 
   Future<void> requestSurveyStats(String surveyId) async {
     if (surveyId != _surveyId) {
       _surveyId = surveyId;
       _survey = await _repository.getSurveyById(surveyId);
-      List<SurveyQuestion> list = _survey!.questions;
       for (SurveyQuestion question in _survey!.questions) {
-        _subscriptions.add(getQuestionResponsesStream(surveyId, question.id)
-            .listen((response) {
-          // FIXME: cleanup hardcode later
-          int index = list.indexWhere((q) => q.id == question.id);
-          if (index != -1) {
-            SurveyQuestion newQuestion = list.removeAt(index).copyWith(
-                key: NumberQuestionKey.selectedValue, value: response);
-            list.insert(index, newQuestion);
-            list = List.from(list);
-          }
-          _survey = _survey!.copyWith(questions: list);
-          notifyListeners();
-        }));
+        streams.putIfAbsent(
+          question.id,
+          () => getQuestionResponsesStream(surveyId, question),
+        );
       }
       notifyListeners();
     }
   }
 
-  // FIXME: hardcoded for one possible option only
-  Stream<double> getQuestionResponsesStream(
+  Stream<Map<String, dynamic>> getQuestionResponsesStream(
     String surveyId,
-    String questionId,
+    SurveyQuestion question,
   ) {
-    return _repository.getResponsesStream(surveyId, questionId).map((list) {
-      // FIXME: think on different output for different questions
-      var sum = list.fold(0.0, (prev, curr) {
-        return prev + curr[NumberQuestionKey.selectedValue];
-      });
-      return sum / list.length;
-    });
-  }
-
-  @override
-  void dispose() {
-    for (var element in _subscriptions) {
-      element.cancel();
-    }
-    super.dispose();
+    return _repository
+        .getResponsesStream(surveyId, question.id)
+        .map(question.responsesToStats);
   }
 }
