@@ -48,6 +48,7 @@ class SurveyProvider extends ChangeNotifier {
       questionsList.insert(indexOf, question);
     }
     _survey = survey!.copyWith(questions: List.from(questionsList));
+    notifyListeners();
   }
 
   Future<void> sendResponse() async {

@@ -1,4 +1,5 @@
 import 'package:simple_survey/models/questions/number_in_range_survey_question.dart';
+import 'package:simple_survey/models/questions/yes_no_survey_question.dart';
 
 class QuestionKey {
   static const title = 'title';
@@ -28,6 +29,8 @@ abstract class SurveyQuestion {
     switch (type) {
       case QuestionType.numberInRange:
         return NumberInRangeSurveyQuestion.fromJson(json);
+      case QuestionType.yesNo:
+        return YesNoSurveyQuestion.fromJson(json);
       // case QuestionType.singleChoice:
       //   return SingleChoiceSurveyQuestion.fromJson(json);
       // case QuestionType.multipleChoice:
@@ -62,14 +65,17 @@ abstract class SurveyQuestion {
 }
 
 enum QuestionType {
-  numberInRange('numberInRange');
+  numberInRange('numberInRange', 'Rate it from "N" to "M" question'),
+  yesNo('yesNo', 'Simple Yes / No question');
   // singleChoice('singleChoice'),
   // multipleChoices('multipleChoices'),
   // freeFormText('freeFormText');
 
   final String name;
 
-  const QuestionType(this.name);
+  final String readableName;
+
+  const QuestionType(this.name, this.readableName);
 
   static QuestionType fromString(String name) {
     return QuestionType.values.firstWhere((element) => element.name == name);
@@ -78,7 +84,7 @@ enum QuestionType {
   SurveyQuestion toSurveyQuestion() {
     return switch (this) {
       QuestionType.numberInRange => NumberInRangeSurveyQuestion.empty(),
-      _ => NumberInRangeSurveyQuestion.empty(),
+      QuestionType.yesNo => YesNoSurveyQuestion.empty(),
     };
   }
 }

@@ -103,19 +103,32 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
       context: context,
       builder: (context) {
         final availableQuestions = getAvailableQuestions();
-        return ListView.builder(
-          itemCount: availableQuestions.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(availableQuestions[index].name),
-              onTap: () {
-                _addQuestion(
-                  context,
-                  availableQuestions[index].toSurveyQuestion(),
-                );
-              },
-            );
-          },
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Text(
+                'Add question to survey',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: availableQuestions.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(availableQuestions[index].readableName),
+                    onTap: () {
+                      _addQuestion(
+                        context,
+                        availableQuestions[index].toSurveyQuestion(),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         );
       },
     );

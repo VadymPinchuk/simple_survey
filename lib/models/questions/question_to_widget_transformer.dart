@@ -1,9 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:simple_survey/models/questions/number_in_range_survey_question.dart';
 import 'package:simple_survey/models/questions/survey_question.dart';
+import 'package:simple_survey/models/questions/yes_no_survey_question.dart';
+import 'package:simple_survey/util/uuid_generator.dart';
 import 'package:simple_survey/widgets/questions/base_question_widget.dart';
 import 'package:simple_survey/widgets/questions/number_in_range_question_widget.dart';
+import 'package:simple_survey/widgets/questions/yes_no_question_widget.dart';
 import 'package:simple_survey/widgets/stats/number_in_range_stats_widget.dart';
+import 'package:simple_survey/widgets/stats/yes_no_stats_widget.dart';
 
 extension QuestionToWidget on SurveyQuestion {
   Widget toQuestionWidget({
@@ -14,8 +18,14 @@ extension QuestionToWidget on SurveyQuestion {
       return const SizedBox.shrink();
     }
     return switch (type) {
+      QuestionType.yesNo => YesNoQuestionWidget(
+          key: Key(uuidFrom(toJson())),
+          question: this as YesNoSurveyQuestion,
+          mode: mode,
+          onChanged: onChanged,
+        ),
       _ => NumberInRangeQuestionWidget(
-          key: Key(toString()),
+          key: Key(uuidFrom(toJson())),
           question: this as NumberInRangeSurveyQuestion,
           mode: mode,
           onChanged: onChanged,
@@ -25,8 +35,12 @@ extension QuestionToWidget on SurveyQuestion {
 
   Widget toStatsWidget() {
     return switch (type) {
+      QuestionType.yesNo => YesNoStatsWidget(
+          key: Key(uuidFrom(toJson())),
+          question: this as YesNoSurveyQuestion,
+        ),
       _ => NumberInRangeStatsWidget(
-          key: Key(toString()),
+          key: Key(uuidFrom(toJson())),
           question: this as NumberInRangeSurveyQuestion,
         ),
     };

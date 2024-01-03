@@ -31,7 +31,7 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion>
       child: Card(
         color: question.isActive ? color : color.withOpacity(0.7),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -49,7 +49,7 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion>
                   if (mode == QuestionMode.edit) _editButton(context),
                 ],
               ),
-              Text(question.description, style: text.bodyMedium),
+              if (question.description.isNotEmpty) Text(question.description, style: text.bodyMedium),
               childSpecificUI(context),
             ],
           ),

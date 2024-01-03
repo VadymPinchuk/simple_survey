@@ -36,7 +36,7 @@ class QuestionEditProvider extends ChangeNotifier {
   }
 
   bool isQuestionFilled() {
-    return _question.title.isNotEmpty && _question.description.isNotEmpty;
+    return _question.title.isNotEmpty;
   }
 
   void saveQuestion() {

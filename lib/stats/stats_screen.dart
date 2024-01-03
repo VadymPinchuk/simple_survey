@@ -45,8 +45,7 @@ class _StatsScreenState extends State<StatsScreen> {
                     style: textTheme.bodyLarge,
                   ),
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                Wrap(
                   children: survey.questions
                       .map((question) => question.toStatsWidget())
                       .toList(),
