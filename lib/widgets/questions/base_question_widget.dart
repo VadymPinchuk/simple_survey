@@ -27,14 +27,14 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion>
     final theme = Theme.of(context);
     final cardColor = theme.cardColor;
     final text = Theme.of(context).textTheme;
-    final primaryContainer =
-        theme.colorScheme.primaryContainer.withOpacity(0.5);
+    final primary =
+        theme.colorScheme.primary.withOpacity(0.5);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Card(
-        surfaceTintColor: primaryContainer,
-        shadowColor: primaryContainer,
-        color: (question.isActive ? cardColor : Colors.grey).withOpacity(0.5),
+        surfaceTintColor: Colors.transparent,
+        shadowColor: primary,
+        color: (question.isActive ? cardColor : Colors.grey).withOpacity(0.7),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
