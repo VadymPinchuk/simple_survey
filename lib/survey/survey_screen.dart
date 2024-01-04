@@ -1,3 +1,4 @@
+import 'package:blur/blur.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,6 +9,9 @@ import 'package:simple_survey/router.dart';
 import 'package:simple_survey/survey/survey_provider.dart';
 import 'package:simple_survey/widgets/loader.dart';
 import 'package:simple_survey/widgets/questions/base_question_widget.dart';
+
+const String _url =
+    'https://static.wixstatic.com/media/6e1ab2_82fe1012f6fb45b3b1a7fcf042969adc~mv2.png/v1/fill/w_660,h_574,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/dcam23-landmark.png';
 
 class SurveyScreen extends StatefulWidget {
   const SurveyScreen({
@@ -54,33 +58,49 @@ class _SurveyScreenState extends State<SurveyScreen> {
             )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Text(
-                survey.description,
-                style: theme.textTheme.bodyLarge,
+      body: Stack(
+        children: [
+          Align(
+            alignment: AlignmentDirectional.bottomEnd,
+            child: Blur(
+              blur: 5,
+              blurColor: Theme.of(context).colorScheme.background,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.network(_url),
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: survey.questions.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return survey.questions[index].toQuestionWidget(
-                    mode: QuestionMode.submit,
-                    onChanged: context.read<SurveyProvider>().updateProgress,
-                  );
-                },
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    survey.description,
+                    style: theme.textTheme.bodyLarge,
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: survey.questions.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return survey.questions[index].toQuestionWidget(
+                        mode: QuestionMode.submit,
+                        onChanged:
+                            context.read<SurveyProvider>().updateProgress,
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

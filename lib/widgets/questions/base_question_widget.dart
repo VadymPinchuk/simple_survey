@@ -24,12 +24,17 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion>
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).cardColor;
+    final theme = Theme.of(context);
+    final cardColor = theme.cardColor;
     final text = Theme.of(context).textTheme;
+    final primaryContainer =
+        theme.colorScheme.primaryContainer.withOpacity(0.5);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Card(
-        color: question.isActive ? color : color.withOpacity(0.7),
+        surfaceTintColor: primaryContainer,
+        shadowColor: primaryContainer,
+        color: (question.isActive ? cardColor : Colors.grey).withOpacity(0.5),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
@@ -49,7 +54,8 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion>
                   if (mode == QuestionMode.edit) _editButton(context),
                 ],
               ),
-              if (question.description.isNotEmpty) Text(question.description, style: text.bodyMedium),
+              if (question.description.isNotEmpty)
+                Text(question.description, style: text.bodyMedium),
               childSpecificUI(context),
             ],
           ),
