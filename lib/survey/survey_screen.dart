@@ -68,7 +68,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
-                  width: MediaQuery.sizeOf(context).width / 2,
+                  width: MediaQuery.sizeOf(context).width * 2 / 3,
                   child: Image.network(_url),
                 ),
               ),
