@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_survey/models/questions/number_in_range_survey_question.dart';
 import 'package:simple_survey/widgets/stats/base_stats_widget.dart';
 
-class NumberInRangeStatsWidget
-    extends BaseStatsWidget<NumberInRangeSurveyQuestion> {
+class NumberInRangeStatsWidget extends BaseStatsWidget<NumberInRangeSurveyQuestion> {
   const NumberInRangeStatsWidget({
     super.key,
     required super.question,

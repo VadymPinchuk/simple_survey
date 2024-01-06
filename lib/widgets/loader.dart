@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-const String _ringsLoader = 'assets/images/rings.svg';
-
 class Loader extends StatelessWidget {
   const Loader({super.key});
 

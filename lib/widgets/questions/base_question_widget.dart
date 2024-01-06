@@ -8,8 +8,7 @@ import 'package:simple_survey/models/questions/survey_question.dart';
 enum QuestionMode { edit, submit }
 
 /// Widget with basic UI - title and description
-abstract class BaseQuestionWidget<T extends SurveyQuestion>
-    extends StatelessWidget {
+abstract class BaseQuestionWidget<T extends SurveyQuestion> extends StatelessWidget {
   const BaseQuestionWidget({
     super.key,
     required this.question,
@@ -27,8 +26,7 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion>
     final theme = Theme.of(context);
     final cardColor = theme.cardColor;
     final text = Theme.of(context).textTheme;
-    final primary =
-        theme.colorScheme.primary.withOpacity(0.5);
+    final primary = theme.colorScheme.primary.withOpacity(0.5);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Card(

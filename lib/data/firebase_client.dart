@@ -14,14 +14,13 @@ class FirebaseClient {
   /// A reference to the list of created surveys
   /// We are using `withConverter` to ensure
   /// that interactions with the collection are type-safe.
-  final _surveysRef = FirebaseFirestore.instance
-      .collection(CollectionKeys.surveys)
-      .withConverter<Survey>(
-        fromFirestore: (snapshots, _) => Survey.fromJson(
-          snapshots.data()!,
-        ),
-        toFirestore: (survey, _) => survey.toJson(),
-      );
+  final _surveysRef =
+      FirebaseFirestore.instance.collection(CollectionKeys.surveys).withConverter<Survey>(
+            fromFirestore: (snapshots, _) => Survey.fromJson(
+              snapshots.data()!,
+            ),
+            toFirestore: (survey, _) => survey.toJson(),
+          );
 
   /// Specific [Survey] doc reference
   DocumentReference<Survey> _surveyDocRef(String surveyId) {
@@ -50,9 +49,7 @@ class FirebaseClient {
     String surveyId,
     String questionId,
   ) {
-    return FirebaseFirestore.instance
-        .doc('$surveyId/$questionId')
-        .withConverter<SurveyQuestion>(
+    return FirebaseFirestore.instance.doc('$surveyId/$questionId').withConverter<SurveyQuestion>(
           fromFirestore: (snapshots, _) => SurveyQuestion.fromJson(
             snapshots.data()!,
           ),
@@ -109,8 +106,7 @@ class FirebaseClient {
   Future<void> sendResponse(String respondentId, Survey survey) async {
     for (var question in survey.questions) {
       final response = question.toResponse();
-      await _setQuestionResponse(
-          survey.id, question.id, respondentId, response);
+      await _setQuestionResponse(survey.id, question.id, respondentId, response);
     }
   }
 

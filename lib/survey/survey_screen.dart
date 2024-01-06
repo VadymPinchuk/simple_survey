@@ -100,8 +100,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                         builder: (_, SurveyQuestion question, __) {
                           return question.toQuestionWidget(
                             mode: QuestionMode.submit,
-                            onChanged:
-                                context.read<SurveyProvider>().updateProgress,
+                            onChanged: context.read<SurveyProvider>().updateProgress,
                           );
                         },
                       );

@@ -25,8 +25,7 @@ class SurveysListScreen extends StatelessWidget {
             if (!snapshot.hasData) {
               return const Loader();
             }
-            if (snapshot.requireData.isEmpty ||
-                snapshot.connectionState != ConnectionState.done) {
+            if (snapshot.requireData.isEmpty || snapshot.connectionState != ConnectionState.done) {
               return const Center(
                 child: Text('No items available'),
               );

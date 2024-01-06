@@ -47,8 +47,7 @@ class _StatsScreenState extends State<StatsScreen> {
                 ),
                 Wrap(
                   children: survey.questions.map((question) {
-                    return Selector<StatsProvider,
-                        Stream<Map<String, dynamic>>>(
+                    return Selector<StatsProvider, Stream<Map<String, dynamic>>>(
                       selector: (_, provider) => provider.streams[question.id]!,
                       builder: (_, stream, __) {
                         return question.toStatsWidget(stream);

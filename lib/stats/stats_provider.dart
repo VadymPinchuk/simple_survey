@@ -36,8 +36,6 @@ class StatsProvider extends ChangeNotifier {
     String surveyId,
     SurveyQuestion question,
   ) {
-    return _repository
-        .getResponsesStream(surveyId, question.id)
-        .map(question.responsesToStats);
+    return _repository.getResponsesStream(surveyId, question.id).map(question.responsesToStats);
   }
 }

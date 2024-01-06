@@ -49,16 +49,13 @@ class _QuestionEditDialogState extends State<QuestionEditDialog> {
                             child: DebouncedTextField(
                               text: question.title,
                               labelText: 'Title',
-                              onChanged:
-                                  context.read<QuestionEditProvider>().setTitle,
+                              onChanged: context.read<QuestionEditProvider>().setTitle,
                             ),
                           ),
                         ),
                         Switch(
                           value: question.isActive,
-                          onChanged: context
-                              .read<QuestionEditProvider>()
-                              .setActiveStatus,
+                          onChanged: context.read<QuestionEditProvider>().setActiveStatus,
                         ),
                       ],
                     ),
@@ -69,8 +66,7 @@ class _QuestionEditDialogState extends State<QuestionEditDialog> {
                         text: question.description,
                         labelText: 'Description (optional)',
                         maxLines: 2,
-                        onChanged:
-                            context.read<QuestionEditProvider>().setDescription,
+                        onChanged: context.read<QuestionEditProvider>().setDescription,
                       ),
                     ),
                     _questionTypeSpecificUI(question),

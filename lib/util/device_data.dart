@@ -10,19 +10,12 @@ Future<Map<String, dynamic>> readPlatformData() async {
       deviceData = _readWebBrowserInfo(await DeviceInfoPlugin().webBrowserInfo);
     } else {
       deviceData = switch (defaultTargetPlatform) {
-        TargetPlatform.android =>
-          _readAndroidBuildData(await DeviceInfoPlugin().androidInfo),
-        TargetPlatform.iOS =>
-          _readIosDeviceInfo(await DeviceInfoPlugin().iosInfo),
-        TargetPlatform.linux =>
-          _readLinuxDeviceInfo(await DeviceInfoPlugin().linuxInfo),
-        TargetPlatform.windows =>
-          _readWindowsDeviceInfo(await DeviceInfoPlugin().windowsInfo),
-        TargetPlatform.macOS =>
-          _readMacOsDeviceInfo(await DeviceInfoPlugin().macOsInfo),
-        TargetPlatform.fuchsia => <String, dynamic>{
-            'Error:': 'Fuchsia platform isn\'t supported'
-          },
+        TargetPlatform.android => _readAndroidBuildData(await DeviceInfoPlugin().androidInfo),
+        TargetPlatform.iOS => _readIosDeviceInfo(await DeviceInfoPlugin().iosInfo),
+        TargetPlatform.linux => _readLinuxDeviceInfo(await DeviceInfoPlugin().linuxInfo),
+        TargetPlatform.windows => _readWindowsDeviceInfo(await DeviceInfoPlugin().windowsInfo),
+        TargetPlatform.macOS => _readMacOsDeviceInfo(await DeviceInfoPlugin().macOsInfo),
+        TargetPlatform.fuchsia => <String, dynamic>{'Error:': 'Fuchsia platform isn\'t supported'},
       };
     }
   } on PlatformException {
@@ -59,8 +52,7 @@ Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
     'type': build.type,
     'isPhysicalDevice': build.isPhysicalDevice,
     'systemFeatures': build.systemFeatures,
-    'displaySizeInches':
-        ((build.displayMetrics.sizeInches * 10).roundToDouble() / 10),
+    'displaySizeInches': ((build.displayMetrics.sizeInches * 10).roundToDouble() / 10),
     'displayWidthPixels': build.displayMetrics.widthPx,
     'displayWidthInches': build.displayMetrics.widthInches,
     'displayHeightPixels': build.displayMetrics.heightPx,

@@ -58,8 +58,9 @@ class YesNoSurveyQuestion extends SurveyQuestion {
 
   @override
   Map<String, dynamic> responsesToStats(List<Map<String, dynamic>> rawData) {
-    final positive =
-        rawData.where((element) => element[YesNoQuestionKey.selectedValue] == true).length;
+    final positive = rawData.where((element) {
+      return element[YesNoQuestionKey.selectedValue] == true;
+    }).length;
     final negative = rawData.length - positive;
     return <String, dynamic>{
       QuestionKey.title: title,

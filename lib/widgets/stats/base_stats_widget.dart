@@ -5,8 +5,7 @@ import 'package:simple_survey/widgets/loader.dart';
 enum QuestionMode { edit, submit }
 
 /// Widget with basic UI - title
-abstract class BaseStatsWidget<T extends SurveyQuestion>
-    extends StatelessWidget {
+abstract class BaseStatsWidget<T extends SurveyQuestion> extends StatelessWidget {
   const BaseStatsWidget({
     super.key,
     required this.question,

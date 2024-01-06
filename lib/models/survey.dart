@@ -30,9 +30,8 @@ class Survey {
 
   factory Survey.fromJson(Map<String, dynamic> json) {
     var questionList = json['questions'] as List;
-    List<SurveyQuestion> questions = questionList
-        .map((i) => SurveyQuestion.fromJson(i as Map<String, dynamic>))
-        .toList();
+    List<SurveyQuestion> questions =
+        questionList.map((i) => SurveyQuestion.fromJson(i as Map<String, dynamic>)).toList();
 
     return Survey._(
       id: json['id'],
@@ -75,9 +74,8 @@ class Survey {
   String titleToPascalCase() {
     return title
         .split(' ')
-        .map((word) => word.isNotEmpty
-            ? word[0].toUpperCase() + word.substring(1).toLowerCase()
-            : '')
+        .map((word) =>
+            word.isNotEmpty ? word[0].toUpperCase() + word.substring(1).toLowerCase() : '')
         .join();
   }
 
