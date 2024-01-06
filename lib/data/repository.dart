@@ -16,7 +16,9 @@ class Repository {
     return _client.getSurveysList();
   }
 
-  Stream<List<Survey>> get streamOfSurveys => _client.getSurveysStream();
+  Stream<List<Survey>> get streamOfSurveys {
+    return _client.getSurveysStream();
+  }
 
   Future<void> createOrUpdateSurvey(Survey survey) async {
     if (survey.id.isEmpty) {

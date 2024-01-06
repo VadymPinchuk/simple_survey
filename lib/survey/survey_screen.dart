@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_survey/models/questions/question_to_widget_transformer.dart';
+import 'package:simple_survey/models/questions/survey_question.dart';
 import 'package:simple_survey/router.dart';
 import 'package:simple_survey/survey/survey_provider.dart';
 import 'package:simple_survey/widgets/loader.dart';
@@ -68,7 +69,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 2 / 3,
+                  width: MediaQuery.sizeOf(context).width / 2,
                   child: Image.network(_url),
                 ),
               ),
@@ -92,10 +93,17 @@ class _SurveyScreenState extends State<SurveyScreen> {
                   child: ListView.builder(
                     itemCount: survey.questions.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return survey.questions[index].toQuestionWidget(
-                        mode: QuestionMode.submit,
-                        onChanged:
-                            context.read<SurveyProvider>().updateProgress,
+                      return Selector<SurveyProvider, SurveyQuestion>(
+                        selector: (_, provider) {
+                          return provider.questionsList[index];
+                        },
+                        builder: (_, SurveyQuestion question, __) {
+                          return question.toQuestionWidget(
+                            mode: QuestionMode.submit,
+                            onChanged:
+                                context.read<SurveyProvider>().updateProgress,
+                          );
+                        },
                       );
                     },
                   ),

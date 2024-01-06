@@ -44,7 +44,6 @@ class YesNoSurveyQuestion extends SurveyQuestion {
     if (key != null && value != null) {
       json[key] = value;
     }
-    print(json.toString());
     return YesNoSurveyQuestion.fromJson(json);
   }
 
@@ -53,17 +52,14 @@ class YesNoSurveyQuestion extends SurveyQuestion {
 
   @override
   @override
-  Map<String, Object> toResponse() {
-    return {
-      YesNoQuestionKey.selectedValue: selectedValue,
-    };
-  }
+  Map<String, Object> toResponse() => {
+        YesNoQuestionKey.selectedValue: selectedValue,
+      };
 
   @override
   Map<String, dynamic> responsesToStats(List<Map<String, dynamic>> rawData) {
-    final positive = rawData
-        .where((element) => element[YesNoQuestionKey.selectedValue] == true)
-        .length;
+    final positive =
+        rawData.where((element) => element[YesNoQuestionKey.selectedValue] == true).length;
     final negative = rawData.length - positive;
     return <String, dynamic>{
       QuestionKey.title: title,
@@ -74,9 +70,7 @@ class YesNoSurveyQuestion extends SurveyQuestion {
   }
 
   @override
-  String toString() {
-    return 'YesNo${super.toString()}, '
-        '${YesNoQuestionKey.selectedValue}: $selectedValue'
-        '}';
-  }
+  String toString() => 'YesNo${super.toString()}, '
+      '${YesNoQuestionKey.selectedValue}: $selectedValue'
+      '}';
 }

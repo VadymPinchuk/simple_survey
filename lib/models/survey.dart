@@ -6,6 +6,7 @@ class Survey {
   final String description;
   final bool isActive;
   final List<SurveyQuestion> questions;
+  final String lastUpdate;
 
   Survey._({
     required this.id,
@@ -13,6 +14,7 @@ class Survey {
     required this.description,
     required this.isActive,
     required this.questions,
+    required this.lastUpdate,
   });
 
   factory Survey.empty() {
@@ -22,6 +24,7 @@ class Survey {
       description: '',
       isActive: true,
       questions: List.empty(growable: true),
+      lastUpdate: DateTime.now().toIso8601String(),
     );
   }
 
@@ -37,6 +40,7 @@ class Survey {
       description: json['description'],
       isActive: json['isActive'],
       questions: questions,
+      lastUpdate: json['lastUpdate'],
     );
   }
 
@@ -47,6 +51,7 @@ class Survey {
       'description': description,
       'isActive': isActive,
       'questions': questions.map((q) => q.toJson()).toList(),
+      'lastUpdate': lastUpdate,
     };
   }
 
@@ -63,6 +68,7 @@ class Survey {
       description: description ?? this.description,
       isActive: isActive ?? this.isActive,
       questions: questions ?? this.questions,
+      lastUpdate: DateTime.now().toIso8601String(),
     );
   }
 
@@ -73,5 +79,10 @@ class Survey {
             ? word[0].toUpperCase() + word.substring(1).toLowerCase()
             : '')
         .join();
+  }
+
+  @override
+  String toString() {
+    return 'Survey { $id, $title, ${questions.where((element) => element.isActive).length}, $lastUpdate}';
   }
 }

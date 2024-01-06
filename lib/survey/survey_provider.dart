@@ -23,35 +23,44 @@ class SurveyProvider extends ChangeNotifier {
 
   Survey? get survey => _survey;
 
+  final List<SurveyQuestion> _questionsList = List.empty(growable: true);
+
+  List<SurveyQuestion> get questionsList => _questionsList;
+
   Future<void> selectSurvey(String surveyId) async {
     _surveyId = surveyId;
     await _fetchSurvey();
   }
 
   Future<void> _fetchSurvey() async {
-    if (_survey == null || _surveyId != _survey?.id) {
-      final deviceData = await readPlatformData();
-      _respondentUuid = uuidFrom(deviceData);
-      _survey = await _repository.getSurveyById(_surveyId);
+    final deviceData = await readPlatformData();
+    _respondentUuid = uuidFrom(deviceData);
+    final Survey survey = await _repository.getSurveyById(_surveyId);
+    if (_survey == null || _surveyId != _survey!.id || survey.lastUpdate != _survey!.lastUpdate) {
+      _survey = survey;
+      _questionsList
+        ..clear()
+        ..addAll(_survey!.questions);
       await _repository.saveRespondent(deviceData);
       notifyListeners();
     }
   }
 
   void updateProgress(SurveyQuestion question) {
-    final List<SurveyQuestion> questionsList = survey!.questions;
-    final int indexOf = questionsList.indexWhere((e) => e.id == question.id);
+    final int indexOf = _questionsList.indexWhere((e) => e.id == question.id);
     if (indexOf == -1) {
-      questionsList.add(question);
+      _questionsList.add(question);
     } else {
-      questionsList.removeAt(indexOf);
-      questionsList.insert(indexOf, question);
+      _questionsList.removeAt(indexOf);
+      _questionsList.insert(indexOf, question);
     }
-    _survey = survey!.copyWith(questions: List.from(questionsList));
     notifyListeners();
   }
 
   Future<void> sendResponse() async {
+    _survey = survey!.copyWith(questions: questionsList);
     await _repository.sendResponse(_respondentUuid, _survey!);
+    _survey = null;
+    _questionsList.clear();
   }
 }

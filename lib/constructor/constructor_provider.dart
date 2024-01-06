@@ -64,7 +64,7 @@ class ConstructorProvider extends ChangeNotifier {
       questionsList.removeAt(indexOf);
       questionsList.insert(indexOf, question);
     }
-    _survey = survey!.copyWith(questions: List.from(questionsList));
+    _survey = survey!.copyWith(questions: questionsList);
     notifyListeners();
   }
 
@@ -76,7 +76,7 @@ class ConstructorProvider extends ChangeNotifier {
     if (indexOf != -1) {
       questionsList.removeAt(indexOf);
     }
-    _survey = survey!.copyWith(questions: List.from(questionsList));
+    _survey = survey!.copyWith(questions: questionsList);
     notifyListeners();
   }
 
@@ -84,6 +84,7 @@ class ConstructorProvider extends ChangeNotifier {
   Future<void> saveSurvey() async {
     if (_survey != null) {
       await _repository.createOrUpdateSurvey(survey!);
+      _survey = null;
     }
   }
 }
