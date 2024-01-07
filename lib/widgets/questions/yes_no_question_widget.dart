@@ -25,10 +25,7 @@ class YesNoQuestionWidget extends BaseQuestionWidget<YesNoSurveyQuestion> {
             value: question.selectedValue,
             onChanged: (value) {
               onChanged?.call(
-                question.copyWith(
-                  key: YesNoQuestionKey.selectedValue,
-                  value: value,
-                ),
+                question.copyWith({YesNoQuestionKey.selectedValue: value}),
               );
             },
           ),

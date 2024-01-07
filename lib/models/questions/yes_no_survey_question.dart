@@ -39,15 +39,6 @@ class YesNoSurveyQuestion extends SurveyQuestion {
   }
 
   @override
-  YesNoSurveyQuestion copyWith({String? key, Object? value}) {
-    Map<String, Object> json = toJson();
-    if (key != null && value != null) {
-      json[key] = value;
-    }
-    return YesNoSurveyQuestion.fromJson(json);
-  }
-
-  @override
   QuestionType get type => QuestionType.yesNo;
 
   @override

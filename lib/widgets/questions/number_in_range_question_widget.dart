@@ -19,10 +19,7 @@ class NumberInRangeQuestionWidget extends BaseQuestionWidget<NumberInRangeSurvey
       max: question.maxValue,
       onChanged: (value) {
         onChanged?.call(
-          question.copyWith(
-            key: NumberQuestionKey.selectedValue,
-            value: value,
-          ),
+          question.copyWith({NumberQuestionKey.selectedValue: value}),
         );
       },
     );

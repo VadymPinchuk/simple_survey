@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_survey/constructor/question/question_edit_provider.dart';
+import 'package:simple_survey/constructor/question/single_choice_edit_widget.dart';
 import 'package:simple_survey/models/questions/number_in_range_survey_question.dart';
+import 'package:simple_survey/models/questions/single_choice_survey_question.dart';
 import 'package:simple_survey/models/questions/survey_question.dart';
 import 'package:simple_survey/models/questions/yes_no_survey_question.dart';
 import 'package:simple_survey/widgets/debounced_range_slider.dart';
@@ -110,6 +112,9 @@ class _QuestionEditDialogState extends State<QuestionEditDialog> {
     }
     if (question is YesNoSurveyQuestion) {
       return _buildYesNoSwitch(question);
+    }
+    if (question is SingleChoiceSurveyQuestion) {
+      return SingleChoiceEditWidget(question: question);
     }
     return const SizedBox.shrink();
   }

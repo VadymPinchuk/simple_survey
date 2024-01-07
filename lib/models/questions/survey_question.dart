@@ -1,4 +1,5 @@
 import 'package:simple_survey/models/questions/number_in_range_survey_question.dart';
+import 'package:simple_survey/models/questions/single_choice_survey_question.dart';
 import 'package:simple_survey/models/questions/yes_no_survey_question.dart';
 
 class QuestionKey {
@@ -9,6 +10,7 @@ class QuestionKey {
   static const numOfResponses = 'numOfResponses';
 }
 
+/// Base question class with main fields
 abstract class SurveyQuestion {
   SurveyQuestion({
     required this.id,
@@ -32,8 +34,8 @@ abstract class SurveyQuestion {
         return NumberInRangeSurveyQuestion.fromJson(json);
       case QuestionType.yesNo:
         return YesNoSurveyQuestion.fromJson(json);
-      // case QuestionType.singleChoice:
-      //   return SingleChoiceSurveyQuestion.fromJson(json);
+      case QuestionType.singleChoice:
+        return SingleChoiceSurveyQuestion.fromJson(json);
       // case QuestionType.multipleChoice:
       //   return MultipleChoiceSurveyQuestion.fromJson(json);
       default:
@@ -51,7 +53,13 @@ abstract class SurveyQuestion {
     };
   }
 
-  SurveyQuestion copyWith({String? key, Object? value});
+  SurveyQuestion copyWith(Map<String, Object>? changes) {
+    Map<String, Object> json = toJson();
+    changes?.entries.forEach((entry) {
+      json[entry.key] = entry.value;
+    });
+    return SurveyQuestion.fromJson(json);
+  }
 
   Map<String, Object> toResponse();
 
@@ -69,8 +77,8 @@ abstract class SurveyQuestion {
 
 enum QuestionType {
   numberInRange('numberInRange', 'Rate it from "N" to "M" question'),
-  yesNo('yesNo', 'Simple Yes / No question');
-  // singleChoice('singleChoice'),
+  yesNo('yesNo', 'Simple Yes / No question'),
+  singleChoice('singleChoice', 'Single choice question');
   // multipleChoices('multipleChoices'),
   // freeFormText('freeFormText');
 
@@ -88,6 +96,7 @@ enum QuestionType {
     return switch (this) {
       QuestionType.numberInRange => NumberInRangeSurveyQuestion.empty(),
       QuestionType.yesNo => YesNoSurveyQuestion.empty(),
+      QuestionType.singleChoice => SingleChoiceSurveyQuestion.empty(),
     };
   }
 }

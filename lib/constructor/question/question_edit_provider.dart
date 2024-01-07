@@ -14,7 +14,7 @@ class QuestionEditProvider extends ChangeNotifier {
   SurveyQuestion get question => _question;
 
   Future<void> editQuestion(SurveyQuestion question) async {
-    _question = question.copyWith();
+    _question = question;
     notifyListeners();
   }
 
@@ -31,7 +31,7 @@ class QuestionEditProvider extends ChangeNotifier {
   }
 
   void setParameter(String parameter, Object value) {
-    _question = _question.copyWith(key: parameter, value: value);
+    _question = _question.copyWith({parameter: value});
     notifyListeners();
   }
 

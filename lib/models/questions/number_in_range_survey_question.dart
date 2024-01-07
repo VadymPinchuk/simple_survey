@@ -56,15 +56,6 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
   }
 
   @override
-  NumberInRangeSurveyQuestion copyWith({String? key, Object? value}) {
-    Map<String, Object> json = toJson();
-    if (key != null && value != null) {
-      json[key] = value;
-    }
-    return NumberInRangeSurveyQuestion.fromJson(json);
-  }
-
-  @override
   QuestionType get type => QuestionType.numberInRange;
 
   @override

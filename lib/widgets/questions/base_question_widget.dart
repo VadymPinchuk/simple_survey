@@ -19,7 +19,7 @@ abstract class BaseQuestionWidget<T extends SurveyQuestion> extends StatelessWid
   final T question;
   final QuestionMode mode;
 
-  final Function(T)? onChanged;
+  final Function(SurveyQuestion)? onChanged;
 
   @override
   Widget build(BuildContext context) {
