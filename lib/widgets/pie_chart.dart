@@ -1,19 +1,19 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:simple_survey/main.dart';
+import 'package:simple_survey/widgets/bar_chart.dart';
 
 class PieChart extends StatelessWidget {
   const PieChart({
     super.key,
     required this.data,
     required this.labels,
-    required this.colors,
     this.chartRadius = 50.0,
   });
 
   final List<double> data;
   final List<String> labels;
-  final List<Color> colors;
   final double chartRadius;
 
   @override
@@ -22,7 +22,7 @@ class PieChart extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         CustomPaint(
-          painter: PieChartPainter(data, colors),
+          painter: PieChartPainter(data),
           child: SizedBox(
             width: chartRadius * 2,
             height: chartRadius * 2,
@@ -42,7 +42,7 @@ class PieChart extends StatelessWidget {
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Icon(Icons.circle, color: colors[entry.$1 % colors.length], size: 12),
+            Icon(Icons.circle, color: rainbowColors[entry.$1 % rainbowColors.length], size: 12),
             const SizedBox(width: 4),
             Text('${entry.$2} : ${data[entry.$1].toStringAsFixed(0)}'),
           ],
@@ -53,10 +53,9 @@ class PieChart extends StatelessWidget {
 }
 
 class PieChartPainter extends CustomPainter {
-  final List<double> data;
-  final List<Color> colors;
+  PieChartPainter(this.data);
 
-  PieChartPainter(this.data, this.colors);
+  final List<double> data;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -67,7 +66,7 @@ class PieChartPainter extends CustomPainter {
 
     for (int i = 0; i < data.length; i++) {
       final sweepAngle = data[i] / total * 2 * pi;
-      paint.color = colors[i % colors.length];
+      paint.color = rainbowColors[i % rainbowColors.length];
       canvas.drawArc(
         Rect.fromCenter(
             center: Offset(size.width / 2, size.height / 2),

@@ -9,6 +9,7 @@ import 'package:simple_survey/widgets/questions/number_in_range_question_widget.
 import 'package:simple_survey/widgets/questions/single_choice_question_widget.dart';
 import 'package:simple_survey/widgets/questions/yes_no_question_widget.dart';
 import 'package:simple_survey/widgets/stats/number_in_range_stats_widget.dart';
+import 'package:simple_survey/widgets/stats/single_choice_stats_widget.dart';
 import 'package:simple_survey/widgets/stats/yes_no_stats_widget.dart';
 
 extension QuestionToWidget on SurveyQuestion {
@@ -48,6 +49,11 @@ extension QuestionToWidget on SurveyQuestion {
           question: this as YesNoSurveyQuestion,
           dataStream: dataStream,
         ),
+      QuestionType.singleChoice => SingleChoiceStatsWidget(
+        key: Key(uuidFrom(toJson())),
+        question: this as SingleChoiceSurveyQuestion,
+        dataStream: dataStream,
+      ),
       _ => NumberInRangeStatsWidget(
           key: Key(uuidFrom(toJson())),
           question: this as NumberInRangeSurveyQuestion,

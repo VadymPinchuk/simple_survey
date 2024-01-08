@@ -15,6 +15,18 @@ import 'package:simple_survey/stats/stats_provider.dart';
 import 'package:simple_survey/survey/survey_provider.dart';
 import 'package:simple_survey/util/logger.dart';
 
+const Color skyBlue = Color(0xFF027DFD);
+
+final List<Color> rainbowColors = [
+  Colors.red[700]!,
+  Colors.orange[700]!,
+  Colors.yellow[600]!,
+  Colors.green[700]!,
+  skyBlue,
+  Colors.blue[700]!,
+  Colors.purple[700]!,
+];
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Logs.initialize();
@@ -66,7 +78,7 @@ class VoteApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ColorScheme lightScheme = ColorScheme.fromSeed(seedColor: Colors.deepOrange);
-    ColorScheme darkScheme = ColorScheme.fromSeed(seedColor: Colors.purple);
+    ColorScheme darkScheme = ColorScheme.fromSeed(seedColor: skyBlue);
     return MultiProvider(
       providers: [
         Provider(
@@ -113,8 +125,7 @@ class VoteApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
         debugShowCheckedModeBanner: false,
-        onGenerateTitle: (context) =>
-            AppLocalizations.of(context)!.application_title,
+        onGenerateTitle: (context) => AppLocalizations.of(context)!.application_title,
       ),
     );
   }

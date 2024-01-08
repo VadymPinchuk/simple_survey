@@ -82,15 +82,15 @@ class SingleChoiceSurveyQuestion extends SurveyQuestion {
         counts[id] += 1;
       }
     }
+    Map answersMap = <String, Object>{}..addEntries(
+        options.map((e) => MapEntry(e.label, counts[e.id])),
+      );
 
-    final stats = <String, dynamic>{
+    return <String, dynamic>{
       QuestionKey.title: title,
       QuestionKey.numOfResponses: rawData.length,
+      SingleChoiceQuestionKey.options: answersMap,
     };
-    for (var option in options) {
-      stats.putIfAbsent(option.label, () => counts[option.id]);
-    }
-    return stats;
   }
 
   @override

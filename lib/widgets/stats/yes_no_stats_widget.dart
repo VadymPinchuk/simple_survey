@@ -25,7 +25,6 @@ class YesNoStatsWidget extends BaseStatsWidget<YesNoSurveyQuestion> {
           PieChart(
             data: [data[YesNoQuestionKey.yesValue], data[YesNoQuestionKey.noValue]],
             labels: const ['Yes', 'No'],
-            colors: const [Color(0xFF027DFD), Colors.deepOrange],
             chartRadius: size / 2,
           ),
         ],
