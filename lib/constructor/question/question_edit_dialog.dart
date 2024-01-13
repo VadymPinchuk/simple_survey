@@ -7,8 +7,8 @@ import 'package:simple_survey/models/questions/number_in_range_survey_question.d
 import 'package:simple_survey/models/questions/single_choice_survey_question.dart';
 import 'package:simple_survey/models/questions/survey_question.dart';
 import 'package:simple_survey/models/questions/yes_no_survey_question.dart';
-import 'package:simple_survey/widgets/debounced_range_slider.dart';
-import 'package:simple_survey/widgets/debounced_text_field.dart';
+import 'package:simple_survey/widgets/debounced/debounced_range_slider.dart';
+import 'package:simple_survey/widgets/debounced/debounced_text_field.dart';
 
 class QuestionEditDialog extends StatefulWidget {
   const QuestionEditDialog({super.key});

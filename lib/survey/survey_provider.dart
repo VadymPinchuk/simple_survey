@@ -5,7 +5,6 @@ import 'package:simple_survey/data/repository.dart';
 import 'package:simple_survey/models/questions/survey_question.dart';
 import 'package:simple_survey/models/survey.dart';
 import 'package:simple_survey/util/device_data.dart';
-import 'package:simple_survey/util/uuid_generator.dart';
 
 typedef Score = ({String id, double score, double current});
 
@@ -34,7 +33,7 @@ class SurveyProvider extends ChangeNotifier {
 
   Future<void> _fetchSurvey() async {
     final deviceData = await readPlatformData();
-    _respondentUuid = uuidFrom(deviceData);
+    _respondentUuid = DateTime.now().microsecond.toString(); //uuidFrom(deviceData);
     final Survey survey = await _repository.getSurveyById(_surveyId);
     if (_survey == null || _surveyId != _survey!.id || survey.lastUpdate != _survey!.lastUpdate) {
       _survey = survey;

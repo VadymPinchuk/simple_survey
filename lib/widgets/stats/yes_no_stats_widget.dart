@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_survey/models/questions/yes_no_survey_question.dart';
-import 'package:simple_survey/widgets/pie_chart.dart';
+import 'package:simple_survey/widgets/charts/pie_chart.dart';
 import 'package:simple_survey/widgets/stats/base_stats_widget.dart';
 
 class YesNoStatsWidget extends BaseStatsWidget<YesNoSurveyQuestion> {

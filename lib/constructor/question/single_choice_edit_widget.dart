@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_survey/constructor/question/question_edit_provider.dart';
 import 'package:simple_survey/models/questions/single_choice_survey_question.dart';
-import 'package:simple_survey/widgets/debounced_text_field.dart';
+import 'package:simple_survey/widgets/debounced/debounced_text_field.dart';
 
 class SingleChoiceEditWidget extends StatelessWidget {
   const SingleChoiceEditWidget({

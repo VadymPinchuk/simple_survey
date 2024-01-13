@@ -7,7 +7,7 @@ import 'package:simple_survey/constructor/question/question_edit_provider.dart';
 import 'package:simple_survey/models/questions/question_to_widget_transformer.dart';
 import 'package:simple_survey/models/questions/survey_question.dart';
 import 'package:simple_survey/models/survey.dart';
-import 'package:simple_survey/widgets/debounced_text_field.dart';
+import 'package:simple_survey/widgets/debounced/debounced_text_field.dart';
 import 'package:simple_survey/widgets/loader.dart';
 import 'package:simple_survey/widgets/questions/base_question_widget.dart';
 
