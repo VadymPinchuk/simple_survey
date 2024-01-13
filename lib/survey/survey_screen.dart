@@ -64,7 +64,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
           Align(
             alignment: AlignmentDirectional.bottomEnd,
             child: Blur(
-              blur: 5,
+              blur: 3,
               blurColor: Theme.of(context).colorScheme.background,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -78,40 +78,39 @@ class _SurveyScreenState extends State<SurveyScreen> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    survey.description,
-                    style: theme.textTheme.bodyLarge,
-                  ),
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const SizedBox(height: 16.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  survey.description,
+                  style: theme.textTheme.bodyLarge,
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: survey.questions.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Selector<SurveyProvider, SurveyQuestion>(
-                        selector: (_, provider) {
-                          return provider.questionsList[index];
-                        },
-                        builder: (_, SurveyQuestion question, __) {
-                          return question.toQuestionWidget(
-                            mode: QuestionMode.submit,
-                            onChanged: context.read<SurveyProvider>().updateProgress,
-                          );
-                        },
-                      );
-                    },
-                  ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16.0),
+                  itemCount: survey.questions.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Selector<SurveyProvider, SurveyQuestion>(
+                      selector: (_, provider) {
+                        return provider.questionsList[index];
+                      },
+                      builder: (_, SurveyQuestion question, __) {
+                        return question.toQuestionWidget(
+                          mode: QuestionMode.submit,
+                          onChanged: context.read<SurveyProvider>().updateProgress,
+                        );
+                      },
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
