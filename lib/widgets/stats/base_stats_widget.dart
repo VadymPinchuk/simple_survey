@@ -17,7 +17,6 @@ abstract class BaseStatsWidget<T extends SurveyQuestion> extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -30,23 +29,26 @@ abstract class BaseStatsWidget<T extends SurveyQuestion> extends StatelessWidget
               if (!snapshot.hasData) {
                 return const Loader();
               }
+              final data = snapshot.requireData;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    snapshot.requireData[QuestionKey.title],
+                    data[QuestionKey.title],
                     style: text.titleMedium!.copyWith(
                       fontWeight: FontWeight.w800,
                     ),
                   ),
                   Text(
-                    'Number of respondents: ${snapshot.requireData[QuestionKey.numOfResponses]}',
+                    'Number of respondents: ${data[QuestionKey.numOfResponses]}',
                     style: text.titleMedium,
                   ),
-                  const SizedBox.square(dimension: 16.0),
-                  childSpecificUI(context, snapshot.requireData),
+                  if (data[QuestionKey.numOfResponses] != 0) //
+                    const SizedBox.square(dimension: 16.0),
+                  if (data[QuestionKey.numOfResponses] != 0) //
+                    childSpecificUI(context, data),
                 ],
               );
             },

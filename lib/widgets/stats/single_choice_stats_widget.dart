@@ -15,14 +15,9 @@ class SingleChoiceStatsWidget extends BaseStatsWidget<SingleChoiceSurveyQuestion
   Widget childSpecificUI(BuildContext context, Map<String, dynamic> data) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          BarChart(
-            count: data[QuestionKey.numOfResponses],
-            data: data[SingleChoiceQuestionKey.options],
-          ),
-        ],
+      child: BarChart(
+        count: data[QuestionKey.numOfResponses],
+        data: data[SingleChoiceQuestionKey.options],
       ),
     );
   }

@@ -40,10 +40,10 @@ class NumberInRangeSurveyQuestion extends SurveyQuestion {
       title: json[QuestionKey.title] as String,
       description: json[QuestionKey.description] as String,
       isActive: json[QuestionKey.isActive] as bool,
-      minValue: json[NumberQuestionKey.minValue] as double,
-      maxValue: json[NumberQuestionKey.maxValue] as double,
+      minValue: json[NumberQuestionKey.minValue].toDouble(),
+      maxValue: json[NumberQuestionKey.maxValue].toDouble(),
       selectedValue:
-          (json[NumberQuestionKey.selectedValue] ?? json[NumberQuestionKey.minValue]) as double,
+          (json[NumberQuestionKey.selectedValue] ?? json[NumberQuestionKey.minValue]).toDouble(),
     );
   }
 

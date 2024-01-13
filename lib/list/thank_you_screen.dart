@@ -1,14 +1,18 @@
+// Not allowed to use dart:html outside of web packages
 import 'dart:html';
-import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:simple_survey/router.dart';
+import 'package:simple_survey/survey/survey_provider.dart';
 
 class ThankYouScreen extends StatelessWidget {
   const ThankYouScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final survey = context.read<SurveyProvider>().survey;
     return Scaffold(
       body: Center(
         child: Padding(
@@ -33,16 +37,27 @@ class ThankYouScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18),
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (kIsWeb) {
-                    window.close();
-                  } else {
-                    exit(0);
-                  }
-                },
-                child: const Text('Close the survey'),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // FIXME: This button is a reason of Android app failures.
+                  // Not allowed to use dart:html outside of web packages
+                  ElevatedButton(
+                    onPressed: () => window.close(),
+                    child: const Text('Close the survey'),
+                  ),
+                  if (survey != null) //
+                    const SizedBox(width: 16),
+                  if (survey != null) //
+                    ElevatedButton(
+                      onPressed: () => context.goNamed(
+                        Routes.stats.name,
+                        pathParameters: {'sid': survey.id},
+                      ),
+                      child: const Text('See the stats'),
+                    ),
+                ],
               ),
             ],
           ),

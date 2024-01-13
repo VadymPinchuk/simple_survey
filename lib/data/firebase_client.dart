@@ -97,9 +97,9 @@ class FirebaseClient {
   /// Public API to update existing Survey record
   Future<void> updateSurvey(Survey survey) async {
     await _surveyDocRef(survey.id).set(survey);
-    for (var question in survey.questions) {
-      await _saveQuestionInResponses(survey.id, question);
-    }
+    // for (var question in survey.questions) {
+    //   await _saveQuestionInResponses(survey.id, question);
+    // }
   }
 
   /// Public API to send survey responses by each respondent

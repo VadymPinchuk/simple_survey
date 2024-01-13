@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -40,9 +39,9 @@ Future<void> main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
-  FirebaseFirestore.instance.settings = const Settings(
-    persistenceEnabled: true,
-  );
+  // FirebaseFirestore.instance.settings = const Settings(
+  //   persistenceEnabled: true,
+  // );
 
   runApp(_buildApp(
     isWeb: kIsWeb,
@@ -112,7 +111,7 @@ class VoteApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
-        routerConfig: router,
+        routerConfig: kIsWeb ? webRouter : router,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         themeMode: ThemeMode.light,

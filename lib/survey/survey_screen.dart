@@ -67,10 +67,13 @@ class _SurveyScreenState extends State<SurveyScreen> {
               blur: 5,
               blurColor: Theme.of(context).colorScheme.background,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: SizedBox(
                   width: MediaQuery.sizeOf(context).width / 2,
-                  child: Image.network(_url),
+                  child: Align(
+                    alignment: AlignmentDirectional.bottomEnd,
+                    child: Image.network(_url),
+                  ),
                 ),
               ),
             ),

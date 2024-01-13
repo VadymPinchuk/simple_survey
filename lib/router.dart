@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:simple_survey/constructor/constructor_screen.dart';
 import 'package:simple_survey/list/surveys_list_screen.dart';
+import 'package:simple_survey/list/thank_you_screen.dart';
 import 'package:simple_survey/stats/stats_screen.dart';
 import 'package:simple_survey/survey/survey_screen.dart';
 
@@ -16,13 +17,42 @@ enum Routes {
   const Routes(this.name);
 }
 
+final GoRouter webRouter = GoRouter(
+  routes: <RouteBase>[
+    GoRoute(
+      name: Routes.surveyList.name,
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return const ThankYouScreen();
+      },
+      routes: <RouteBase>[
+        GoRoute(
+          name: Routes.survey.name,
+          path: '${Routes.survey.name}/:sid',
+          builder: (BuildContext context, GoRouterState state) {
+            final surveyId = state.pathParameters['sid'] as String;
+            return SurveyScreen(surveyId: surveyId);
+          },
+        ),
+        GoRoute(
+          name: Routes.stats.name,
+          path: '${Routes.stats.name}/:sid',
+          builder: (BuildContext context, GoRouterState state) {
+            final surveyId = state.pathParameters['sid'] as String;
+            return StatsScreen(surveyId: surveyId);
+          },
+        ),
+      ],
+    ),
+  ],
+);
+
 final GoRouter router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       name: Routes.surveyList.name,
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        // return kIsWeb ? const ThankYouScreen() : const SurveysListScreen();
         return const SurveysListScreen();
       },
       routes: <RouteBase>[
