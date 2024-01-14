@@ -1,16 +1,38 @@
-# simple_survey
+# Simple Survey
 
-A new Flutter project.
+This project started as a simple draft to enable the collection of students' votes. 
+After careful consideration, the author decided to make it scalable and configurable. 
+The goal is to use this Survey Platform to create surveys for the conferences the author speaks at
+and collect feedback about the sessions because "Feedback is a gift."
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is designed to work on both mobile devices and the web. 
+It uses the Flutter framework and Firebase for hosting and Cloud Firestore.
 
-A few resources to get you started if this is your first Flutter project:
+While it is public, Firebase configurations are not pushed to the repository. 
+To make it work, please follow this guide on how to enable Firebase for a Flutter project: 
+[Firebase Setup Guide](https://firebase.google.com/docs/flutter/setup?platform=android)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Mobile Version
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The author created this project to be mobile-first, but for taking a survey, installing the application makes no sense. 
+Therefore, the survey part is web-based.
+
+Mobile routes include:
+- List of created surveys
+- Survey Constructor / Editor
+- Survey Stats screen
+- Taking a survey via a mobile web browser
+
+![Survey List](www/pixel_edit.png) | ![Survey Stats](www/pixel_stats.png) | ![Take a Survey](www/pixel_web.png)
+
+## Web Version
+
+The web application is hosted on Firebase hosting, making it easy to use for taking surveys. 
+While it's primarily intended for survey-taking, it can also be used for everything mentioned earlier in the mobile version.
+
+![Web Survey](www/web_survey.png)
+![Web Stats](www/web_stats.png)
+
+
