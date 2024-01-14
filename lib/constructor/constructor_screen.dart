@@ -50,15 +50,16 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
         builder: (_, Survey? survey, __) {
           if (survey == null) return const Loader();
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Column(
               children: <Widget>[
+                const SizedBox(height: 8.0),
                 DebouncedTextField(
                   text: survey.title,
                   labelText: 'Survey Title',
                   onChanged: context.read<ConstructorProvider>().setTitle,
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 8.0),
                 DebouncedTextField(
                   text: survey.description,
                   labelText: 'Survey short description',
@@ -69,6 +70,7 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
                   child: survey.questions.isEmpty
                       ? const Center(child: Text('No items added yet.'))
                       : ListView.builder(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
                           itemCount: survey.questions.length,
                           itemBuilder: (BuildContext context, int index) {
                             return survey.questions[index]

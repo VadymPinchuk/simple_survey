@@ -17,10 +17,16 @@ abstract class BaseStatsWidget<T extends SurveyQuestion> extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    final text = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final text = theme.textTheme;
+    final cardColor = theme.cardColor;
+    final primary = theme.colorScheme.primary.withOpacity(0.5);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Card(
+        surfaceTintColor: Colors.transparent,
+        shadowColor: primary,
+        color: (question.isActive ? cardColor : Colors.grey).withOpacity(0.7),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: StreamBuilder<Map<String, dynamic>>(

@@ -1,4 +1,3 @@
-import 'package:blur/blur.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -9,6 +8,7 @@ import 'package:simple_survey/models/questions/survey_question.dart';
 import 'package:simple_survey/router.dart';
 import 'package:simple_survey/survey/survey_provider.dart';
 import 'package:simple_survey/widgets/loader.dart';
+import 'package:simple_survey/widgets/logo_blur.dart';
 import 'package:simple_survey/widgets/questions/base_question_widget.dart';
 
 const String _url =
@@ -61,23 +61,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
       ),
       body: Stack(
         children: [
-          Align(
-            alignment: AlignmentDirectional.bottomEnd,
-            child: Blur(
-              blur: 3,
-              blurColor: Theme.of(context).colorScheme.background,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: SizedBox(
-                  width: MediaQuery.sizeOf(context).width / 2,
-                  child: Align(
-                    alignment: AlignmentDirectional.bottomEnd,
-                    child: Image.network(_url),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          const LogoBlur(url: _url),
           Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
