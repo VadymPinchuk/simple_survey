@@ -27,9 +27,9 @@ Mobile routes include:
 - Survey Stats screen
 - Taking a survey via a mobile web browser
 
-| Survey List                        | Survey Stats                         | Take a Survey - Wev                 |
-|------------------------------------|--------------------------------------|-------------------------------------|
-| ![Survey List](www/pixel_edit.png) | ![Survey Stats](www/pixel_stats.png) | ![Take a Survey](www/pixel_web.png) |
+| Survey Constructor                        | Survey Stats                         | Take a Survey - Web                 |
+|-------------------------------------------|--------------------------------------|-------------------------------------|
+| ![Survey Constructor](www/pixel_edit.png) | ![Survey Stats](www/pixel_stats.png) | ![Take a Survey](www/pixel_web.png) |
 
 ## Web Version
 
@@ -37,7 +37,7 @@ The web application is hosted on Firebase hosting, making it easy to use for tak
 While it's primarily intended for survey-taking, it can also be used for everything mentioned
 earlier in the mobile version.
 
-| Survey                            | Survey Stats                    | 
+| Survey                            | Stats                           | 
 |-----------------------------------|---------------------------------|
 | ![Web Survey](www/web_survey.png) | ![Web Stats](www/web_stats.png) |
 
