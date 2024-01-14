@@ -42,7 +42,7 @@ class ThankYouScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // FIXME: This button is a reason of Android app failures.
-                  // Not allowed to use dart:html outside of web packages
+                  // Not allowed to use dart: html outside of web packages
                   ElevatedButton(
                     onPressed: () => window.close(),
                     child: const Text('Close the survey'),

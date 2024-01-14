@@ -11,7 +11,7 @@ class PieChart extends StatefulWidget {
     this.chartRadius = 50.0,
   });
 
-  final List<double> data;
+  final List<int> data;
   final List<String> labels;
   final double chartRadius;
 

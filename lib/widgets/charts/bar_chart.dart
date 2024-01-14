@@ -73,18 +73,31 @@ class _BarChartState extends State<BarChart> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, _) {
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildBarChart(context),
-            const SizedBox(width: 16),
-            _buildLegend(),
-          ],
-        );
+        if (size.width > size.height) {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildBarChart(context),
+              const SizedBox(width: 16),
+              _buildLegend(),
+            ],
+          );
+        } else {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildBarChart(context),
+              const SizedBox(height: 16),
+              _buildLegend(),
+            ],
+          );
+        }
       },
     );
   }
@@ -97,7 +110,7 @@ class _BarChartState extends State<BarChart> with SingleTickerProviderStateMixin
         Theme.of(context).colorScheme.onBackground,
         widget.count,
       ),
-      child: SizedBox(width: widget.data.length * 50, height: 200),
+      child: SizedBox(width: widget.data.length * 50, height: 150),
     );
   }
 
@@ -133,7 +146,7 @@ class BarChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    double barWidth = 25;
+    double barWidth = 30;
     var paint = Paint()..style = PaintingStyle.fill;
     int i = 0;
 
@@ -147,7 +160,32 @@ class BarChartPainter extends CustomPainter {
         paint,
       );
 
-      // Draw text (remains the same as before)
+      // Calculate percentage
+      double percentage = (value / count) * 100;
+      String percentageText = '${percentage.toStringAsFixed(0)} %';
+
+      // Draw percentage text
+      final span = TextSpan(
+        style: TextStyle(
+          color: textColor,
+          fontSize: 11,
+          fontWeight: FontWeight.bold,
+        ),
+        text: percentageText,
+      );
+      final textPainter = TextPainter(
+        text: span,
+        textDirection: TextDirection.ltr,
+        maxLines: 1,
+      );
+      textPainter.layout(
+        minWidth: barWidth,
+        maxWidth: barWidth,
+      );
+      final xCenter = (i * barWidth * 2) + (barWidth / 2) - (textPainter.width / 2);
+      final yPosition = size.height - barHeight - 15; // Adjust as needed
+      textPainter.paint(canvas, Offset(xCenter, yPosition));
+
       i++;
     });
   }
