@@ -27,9 +27,9 @@ Mobile routes include:
 - Survey Stats screen
 - Taking a survey via a mobile web browser
 
-| Survey Constructor                        | Survey Stats                         | Take a Survey - Web                 |
-|-------------------------------------------|--------------------------------------|-------------------------------------|
-| ![Survey Constructor](www/pixel_edit.png) | ![Survey Stats](www/pixel_stats.png) | ![Take a Survey](www/pixel_web.png) |
+| Survey Constructor                | Survey Stats                         | Take a Survey - Web                 |
+|-----------------------------------|--------------------------------------|-------------------------------------|
+| ![Survey Edi](www/pixel_edit.png) | ![Survey Stats](www/pixel_stats.png) | ![Take a Survey](www/pixel_web.png) |
 
 ## Web Version
 
@@ -40,7 +40,3 @@ earlier in the mobile version.
 | Survey                            | Stats                           | 
 |-----------------------------------|---------------------------------|
 | ![Web Survey](www/web_survey.png) | ![Web Stats](www/web_stats.png) |
-
-
-
-
