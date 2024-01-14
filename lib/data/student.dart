@@ -33,7 +33,7 @@ class Student {
     return Student._(
       id: id,
       name: json['name'],
-      score: json['score'] as double,
+      score: json['score'].toDouble(),
     );
   }
 
