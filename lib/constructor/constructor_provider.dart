@@ -26,10 +26,10 @@ class ConstructorProvider extends ChangeNotifier {
 
   Future<void> _getSurveyById() async {
     if (_survey == null || _survey?.id != _surveyId) {
-      if (surveyId.isNotEmpty) {
-        _survey = await _repository.getSurveyById(surveyId);
-      } else {
+      if (surveyId.trim().isEmpty) {
         _survey = Survey.empty();
+      } else {
+        _survey = await _repository.getSurveyById(surveyId);
       }
       notifyListeners();
     }
