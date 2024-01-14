@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyC5yoFShfXtLRlA8rH0jivbzhZZtNrlois</string>
+	<string>AIzaSyB3ZIU5sOhn1rtH5ob_Cfw-8P4uOho6iL8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>804723477649</string>
+	<string>629979510855</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.simpleSurvey</string>
 	<key>PROJECT_ID</key>
-	<string>robot-503ae</string>
+	<string>survey-01j2024</string>
 	<key>STORAGE_BUCKET</key>
-	<string>robot-503ae.appspot.com</string>
+	<string>survey-01j2024.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:804723477649:ios:c67c3505d5c260fe228330</string>
+	<string>1:629979510855:ios:e316fe040bb63c36265962</string>
+	<key>DATABASE_URL</key>
+	<string>https://survey-01j2024-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>
 </plist>

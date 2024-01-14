@@ -1,11 +1,11 @@
 {
-    "name": "simple_survey",
+    "name": "SimpleSurvey",
     "short_name": "simple_survey",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Simple survey platform",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
