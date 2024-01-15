@@ -16,7 +16,11 @@ class Repository {
     return _client.getSurveysList();
   }
 
-  Stream<List<Survey>> get streamOfSurveys {
+  Future<Survey> copySurvey(Survey survey) {
+    return _client.copySurvey(survey);
+  }
+
+  Stream<List<Survey>> streamOfSurveys() {
     return _client.getSurveysStream();
   }
 

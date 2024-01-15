@@ -19,16 +19,11 @@ class SurveysListScreen extends StatelessWidget {
         title: const Text('List of created surveys'),
         automaticallyImplyLeading: false,
       ),
-      body: FutureBuilder<List<Survey>>(
-          future: context.read<SurveysListProvider>().getSurveysList(),
+      body: StreamBuilder<List<Survey>>(
+          stream: context.read<SurveysListProvider>().streamOfSurveys(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Loader();
-            }
-            if (snapshot.requireData.isEmpty || snapshot.connectionState != ConnectionState.done) {
-              return const Center(
-                child: Text('No items available'),
-              );
             }
             return ListView.builder(
               itemCount: snapshot.requireData.length,
@@ -49,6 +44,20 @@ class SurveysListScreen extends StatelessWidget {
                             pathParameters: {'sid': survey.id},
                           ),
                           icon: const Icon(Icons.arrow_forward_ios_outlined),
+                        ),
+                      if (!kIsWeb)
+                        IconButton(
+                          onPressed: () {
+                            context.read<SurveysListProvider>().copySurvey(survey).then(
+                              (copy) {
+                                context.goNamed(
+                                  Routes.constructor.name,
+                                  pathParameters: {'sid': copy.id},
+                                );
+                              },
+                            );
+                          },
+                          icon: const Icon(Icons.copy),
                         ),
                       IconButton(
                         onPressed: () => context.goNamed(

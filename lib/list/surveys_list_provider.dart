@@ -8,6 +8,9 @@ class SurveysListProvider {
 
   final Repository _repository;
 
-  Stream<List<Survey>> get streamOfSurveys => _repository.streamOfSurveys;
+  Stream<List<Survey>> streamOfSurveys() => _repository.streamOfSurveys();
+
   Future<List<Survey>> getSurveysList() => _repository.getSurveysList();
+
+  Future<Survey> copySurvey(Survey survey) => _repository.copySurvey(survey);
 }

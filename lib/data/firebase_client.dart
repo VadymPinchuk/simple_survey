@@ -82,6 +82,14 @@ class FirebaseClient {
     return snapshot.docs.map((e) => e.data()).toList();
   }
 
+  Future<Survey> copySurvey(Survey survey) async {
+    final doc = await _surveysRef.add(survey);
+    final copySnapshot = await doc.get();
+    final copySurvey = copySnapshot.data()!.copyWith(id: doc.id);
+    updateSurvey(copySurvey);
+    return copySurvey;
+  }
+
   Stream<List<Survey>> getSurveysStream() {
     return _surveysRef.snapshots().map((event) {
       return event.docs.map((e) => e.data()).toList();
