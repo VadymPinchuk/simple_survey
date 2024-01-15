@@ -20,30 +20,53 @@ class QuestionEditDialog extends StatefulWidget {
 class _QuestionEditDialogState extends State<QuestionEditDialog> {
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
     return PopScope(
       canPop: false,
       child: SizedBox(
         width: double.infinity,
-        child: Dialog(
-          child: Selector<QuestionEditProvider, SurveyQuestion>(
+        child: AlertDialog(
+          title: Text(
+            'Edit Question',
+            style: textTheme.headlineMedium,
+          ),
+          actionsPadding: const EdgeInsets.all(8.0),
+          actions: [
+            TextButton(
+              child: Text(
+                'Save',
+                style: textTheme.bodyLarge!.copyWith(
+                  color: colorScheme.primary,
+                ),
+              ),
+              onPressed: () {
+                final provider = context.read<QuestionEditProvider>();
+                if (provider.isQuestionFilled()) {
+                  provider.saveQuestion();
+                  context.pop();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Title can\'t be empty'),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(top: 8),
+          content: Selector<QuestionEditProvider, SurveyQuestion>(
             selector: (_, provider) => provider.question,
             builder: (_, question, __) {
-              final colorScheme = Theme.of(context).colorScheme;
-              final textTheme = Theme.of(context).textTheme;
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
+              return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Edit Question',
-                        style: textTheme.headlineMedium,
-                      ),
-                    ),
+                    const SizedBox(height: 8),
                     Row(
+                      mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: SizedBox(
@@ -55,47 +78,24 @@ class _QuestionEditDialogState extends State<QuestionEditDialog> {
                             ),
                           ),
                         ),
+                        const SizedBox(width: 8.0),
                         Switch(
                           value: question.isActive,
                           onChanged: context.read<QuestionEditProvider>().setActiveStatus,
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 16.0),
                     SizedBox(
                       width: double.infinity,
                       child: DebouncedTextField(
                         text: question.description,
                         labelText: 'Description (optional)',
-                        maxLines: 2,
+                        maxLines: 1,
                         onChanged: context.read<QuestionEditProvider>().setDescription,
                       ),
                     ),
                     _questionTypeSpecificUI(question),
-                    Align(
-                      alignment: AlignmentDirectional.bottomEnd,
-                      child: TextButton(
-                        child: Text(
-                          'Save',
-                          style: textTheme.bodyLarge!.copyWith(
-                            color: colorScheme.primary,
-                          ),
-                        ),
-                        onPressed: () {
-                          final provider = context.read<QuestionEditProvider>();
-                          if (provider.isQuestionFilled()) {
-                            provider.saveQuestion();
-                            context.pop();
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Title can\'t be empty'),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    ),
                   ],
                 ),
               );
@@ -121,7 +121,7 @@ class _QuestionEditDialogState extends State<QuestionEditDialog> {
 
   Widget _buildRangeSlider(NumberInRangeSurveyQuestion question) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.only(top: 8.0),
       child: DebouncedRangeSlider(
         values: RangeValues(
           question.minValue,
@@ -141,7 +141,7 @@ class _QuestionEditDialogState extends State<QuestionEditDialog> {
 
   Widget _buildYesNoSwitch(YesNoSurveyQuestion question) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.only(top: 8.0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,

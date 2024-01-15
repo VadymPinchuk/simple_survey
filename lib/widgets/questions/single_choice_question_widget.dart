@@ -19,6 +19,7 @@ class SingleChoiceQuestionWidget extends BaseQuestionWidget<SingleChoiceSurveyQu
           title: Text(option.label),
           value: option.id,
           groupValue: question.selectedId,
+          contentPadding: const EdgeInsets.all(0.0),
           onChanged: (int? newIndex) {
             final list = question.options;
             if (question.selectedId != -1) {

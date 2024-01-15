@@ -15,9 +15,11 @@ class SingleChoiceEditWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         ...question.options.map(
           (option) => ListTile(
+            contentPadding: const EdgeInsets.all(0.0),
             leading: Radio<int>(
               value: option.id,
               groupValue: question.selectedId,
@@ -36,21 +38,22 @@ class SingleChoiceEditWidget extends StatelessWidget {
               },
             ),
             title: DebouncedTextField(
-                text: option.label,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                ),
-                onChanged: (label) {
-                  final list = question.options;
-                  final newSelection = list.removeAt(option.id).copyWith(label: label);
-                  list.insert(option.id, newSelection);
-                  context
-                      .read<QuestionEditProvider>()
-                      .setParameter(SingleChoiceQuestionKey.options, list);
-                }),
+              text: option.label,
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+              ),
+              onChanged: (label) {
+                final list = question.options;
+                final newSelection = list.removeAt(option.id).copyWith(label: label);
+                list.insert(option.id, newSelection);
+                context
+                    .read<QuestionEditProvider>()
+                    .setParameter(SingleChoiceQuestionKey.options, list);
+              },
+            ),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8.0),
         ElevatedButton.icon(
           icon: const Icon(Icons.add),
           label: const Text('Add Option'),

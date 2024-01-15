@@ -48,7 +48,7 @@ class _DebouncedTextFieldState extends State<DebouncedTextField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: widget.padding ?? const EdgeInsets.all(4.0),
+      padding: widget.padding ?? const EdgeInsets.all(0.0),
       child: TextField(
         style: widget.style,
         controller: _controller,
