@@ -57,13 +57,15 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
                 DebouncedTextField(
                   text: survey.title,
                   labelText: 'Survey Title',
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   onChanged: context.read<ConstructorProvider>().setTitle,
                 ),
-                const SizedBox(height: 8.0),
+                const SizedBox(height: 12.0),
                 DebouncedTextField(
                   text: survey.description,
                   labelText: 'Survey short description',
                   maxLines: 2,
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   onChanged: context.read<ConstructorProvider>().setDescription,
                 ),
                 Expanded(
