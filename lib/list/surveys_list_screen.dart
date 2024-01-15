@@ -66,13 +66,14 @@ class SurveysListScreen extends StatelessWidget {
                         ),
                         icon: const Icon(Icons.bar_chart),
                       ),
-                      IconButton(
-                        onPressed: () => context.goNamed(
-                          Routes.constructor.name,
-                          pathParameters: {'sid': survey.id},
+                      if (kIsWeb)
+                        IconButton(
+                          onPressed: () => context.goNamed(
+                            Routes.constructor.name,
+                            pathParameters: {'sid': survey.id},
+                          ),
+                          icon: const Icon(Icons.edit),
                         ),
-                        icon: const Icon(Icons.edit),
-                      ),
                     ],
                   ),
                 );

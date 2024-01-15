@@ -35,6 +35,21 @@ class _ConstructorScreenState extends State<ConstructorScreen> {
       appBar: AppBar(
         title: const Text('Survey Constructor'),
         actions: [
+          Selector<ConstructorProvider, String?>(
+              selector: (_, provider) => provider.survey?.id,
+              builder: (_, String? surveyId, __) {
+                if (surveyId?.isEmpty == true) {
+                  return const SizedBox.shrink();
+                }
+                return IconButton(
+                  icon: const Icon(Icons.delete_outline),
+                  onPressed: () async {
+                    await context.read<ConstructorProvider>().deleteSurvey().then(
+                          (value) => context.pop(),
+                        );
+                  },
+                );
+              }),
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: () async {

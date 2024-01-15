@@ -110,6 +110,11 @@ class FirebaseClient {
     // }
   }
 
+  /// Public API to delete existing Survey record
+  Future<void> deleteSurvey(String surveyId) async {
+    await _surveyDocRef(surveyId).delete();
+  }
+
   /// Public API to send survey responses by each respondent
   Future<void> sendResponse(String respondentId, Survey survey) async {
     for (var question in survey.questions) {

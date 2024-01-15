@@ -80,6 +80,14 @@ class ConstructorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// API to delete survey from Firebase
+  Future<void> deleteSurvey() async {
+    if (_survey != null) {
+      await _repository.deleteSurvey(survey!.id);
+      _survey = null;
+    }
+  }
+
   /// API to save the current state of the survey on the Firebase
   Future<void> saveSurvey() async {
     if (_survey != null) {

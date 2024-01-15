@@ -32,6 +32,10 @@ class Repository {
     }
   }
 
+  Future<void> deleteSurvey(String surveyId) async {
+    return _client.deleteSurvey(surveyId);
+  }
+
   Future<void> saveRespondent(Map<String, dynamic> data) async {
     await _client.saveRespondent(data);
   }
