@@ -66,7 +66,7 @@ class SurveysListScreen extends StatelessWidget {
                         ),
                         icon: const Icon(Icons.bar_chart),
                       ),
-                      if (kIsWeb)
+                      if (!kIsWeb)
                         IconButton(
                           onPressed: () => context.goNamed(
                             Routes.constructor.name,
