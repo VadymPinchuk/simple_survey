@@ -1,6 +1,4 @@
 // Not allowed to use dart:html outside of web packages
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -41,14 +39,6 @@ class ThankYouScreen extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // FIXME: This button is a reason of Android app failures.
-                  // Not allowed to use dart: html outside of web packages
-                  ElevatedButton(
-                    onPressed: () => window.close(),
-                    child: const Text('Close the survey'),
-                  ),
-                  if (survey != null) //
-                    const SizedBox(width: 16),
                   if (survey != null) //
                     ElevatedButton(
                       onPressed: () => context.goNamed(
