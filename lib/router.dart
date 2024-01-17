@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_survey/constructor/constructor_screen.dart';
+import 'package:simple_survey/data/repository.dart';
 import 'package:simple_survey/list/surveys_list_screen.dart';
 import 'package:simple_survey/list/thank_you_screen.dart';
+import 'package:simple_survey/stats/stats_provider.dart';
 import 'package:simple_survey/stats/stats_screen.dart';
 import 'package:simple_survey/survey/survey_screen.dart';
 
@@ -26,22 +29,8 @@ final GoRouter webRouter = GoRouter(
         return const ThankYouScreen();
       },
       routes: <RouteBase>[
-        GoRoute(
-          name: Routes.survey.name,
-          path: '${Routes.survey.name}/:sid',
-          builder: (BuildContext context, GoRouterState state) {
-            final surveyId = state.pathParameters['sid'] as String;
-            return SurveyScreen(surveyId: surveyId);
-          },
-        ),
-        GoRoute(
-          name: Routes.stats.name,
-          path: '${Routes.stats.name}/:sid',
-          builder: (BuildContext context, GoRouterState state) {
-            final surveyId = state.pathParameters['sid'] as String;
-            return StatsScreen(surveyId: surveyId);
-          },
-        ),
+        _surveyRoute,
+        _statsRoute,
       ],
     ),
   ],
@@ -64,23 +53,36 @@ final GoRouter router = GoRouter(
             return ConstructorScreen(surveyId: surveyId);
           },
         ),
-        GoRoute(
-          name: Routes.survey.name,
-          path: '${Routes.survey.name}/:sid',
-          builder: (BuildContext context, GoRouterState state) {
-            final surveyId = state.pathParameters['sid'] as String;
-            return SurveyScreen(surveyId: surveyId);
-          },
-        ),
-        GoRoute(
-          name: Routes.stats.name,
-          path: '${Routes.stats.name}/:sid',
-          builder: (BuildContext context, GoRouterState state) {
-            final surveyId = state.pathParameters['sid'] as String;
-            return StatsScreen(surveyId: surveyId);
-          },
-        ),
+        _surveyRoute,
+        _statsRoute,
       ],
     ),
   ],
 );
+
+GoRoute get _surveyRoute {
+  return GoRoute(
+    name: Routes.survey.name,
+    path: '${Routes.survey.name}/:sid',
+    builder: (BuildContext context, GoRouterState state) {
+      final surveyId = state.pathParameters['sid'] as String;
+      return SurveyScreen(surveyId: surveyId);
+    },
+  );
+}
+
+GoRoute get _statsRoute {
+  return GoRoute(
+    name: Routes.stats.name,
+    path: '${Routes.stats.name}/:sid',
+    builder: (BuildContext context, GoRouterState state) {
+      final surveyId = state.pathParameters['sid'] as String;
+      return ChangeNotifierProvider(
+        create: (context) => StatsProvider(
+          context.read<Repository>(),
+        ),
+        child: StatsScreen(surveyId: surveyId),
+      );
+    },
+  );
+}

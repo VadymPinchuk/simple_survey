@@ -11,7 +11,6 @@ import 'package:simple_survey/data/repository.dart';
 import 'package:simple_survey/firebase_options.dart';
 import 'package:simple_survey/list/surveys_list_provider.dart';
 import 'package:simple_survey/router.dart';
-import 'package:simple_survey/stats/stats_provider.dart';
 import 'package:simple_survey/survey/survey_provider.dart';
 import 'package:simple_survey/util/logger.dart';
 
@@ -102,11 +101,6 @@ class VoteApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => SurveyProvider(
-            context.read<Repository>(),
-          ),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => StatsProvider(
             context.read<Repository>(),
           ),
         ),
