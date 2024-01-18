@@ -4,6 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_survey/router.dart';
 import 'package:simple_survey/survey/survey_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+const String _url = 'https://linktr.ee/vpinchuk';
 
 class ThankYouScreen extends StatelessWidget {
   const ThankYouScreen({super.key});
@@ -31,23 +34,26 @@ class ThankYouScreen extends StatelessWidget {
                 ),
               ),
               const Text(
-                'We appreciate your time spent taking this survey.',
+                'I appreciate your time spent taking this survey',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18),
               ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (survey != null) //
-                    ElevatedButton(
-                      onPressed: () => context.goNamed(
-                        Routes.stats.name,
-                        pathParameters: {'sid': survey.id},
-                      ),
-                      child: const Text('See the stats'),
-                    ),
-                ],
+              const SizedBox(height: 24),
+              const Text(
+                'If you would love follow the speaker journey'
+                    '\nPlease follow the link below',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () async {
+                  final url = Uri.parse(_url);
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url);
+                  }
+                },
+                child: const Text('LinkTree'),
               ),
             ],
           ),
