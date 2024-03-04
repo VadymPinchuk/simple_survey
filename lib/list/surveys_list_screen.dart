@@ -45,7 +45,7 @@ class SurveysListScreen extends StatelessWidget {
                           ),
                           icon: const Icon(Icons.arrow_forward_ios_outlined),
                         ),
-                      if (!kIsWeb)
+                      // if (!kIsWeb)
                         IconButton(
                           onPressed: () {
                             context.read<SurveysListProvider>().copySurvey(survey).then(

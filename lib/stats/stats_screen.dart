@@ -39,7 +39,7 @@ class _StatsScreenState extends State<StatsScreen> {
           ),
           body: Stack(
             children: [
-              const LogoBlur(url: _url),
+              LogoBlur(name: survey.imageName),
               SingleChildScrollView(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_survey/data/firebase_client.dart';
 import 'package:simple_survey/models/questions/question_to_widget_transformer.dart';
 import 'package:simple_survey/models/questions/survey_question.dart';
 import 'package:simple_survey/router.dart';
@@ -61,7 +62,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
       ),
       body: Stack(
         children: [
-          const LogoBlur(url: _url),
+          LogoBlur(name: survey.imageName),
           Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,

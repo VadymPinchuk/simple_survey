@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:simple_survey/models/questions/survey_question.dart';
 import 'package:simple_survey/models/survey.dart';
 import 'package:simple_survey/util/uuid_generator.dart';
@@ -155,5 +157,14 @@ class FirebaseClient {
     Map<String, Object> response,
   ) async {
     await _responseDocRef(surveyId, questionId, respondentId).set(response);
+  }
+
+  static Future<Uint8List?> getImage(String name) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final listAll = await storageRef.listAll();
+    final imageRef = listAll.items.where((element) => element.name.contains(name)).firstOrNull;
+    if (imageRef == null) return null;
+    const megs = 4096 * 4096;
+    return await imageRef.getData(megs);
   }
 }

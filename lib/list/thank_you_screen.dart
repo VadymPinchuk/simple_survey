@@ -1,8 +1,6 @@
 // Not allowed to use dart:html outside of web packages
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_survey/router.dart';
 import 'package:simple_survey/survey/survey_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
